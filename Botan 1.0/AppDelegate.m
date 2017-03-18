@@ -15,7 +15,7 @@
 @end
 
 @implementation AppDelegate
-@synthesize orders, arrOfResult, categories, types, category, type, date, jsonData, arrOfPictures, imageArray, currentUser, currentOrder;
+@synthesize orders, arrOfResult, categories, types, category, type, date, jsonData, arrOfPictures, imageArray, currentUser, currentOrder, isEdit;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -26,6 +26,7 @@
     self.categories = [[NSMutableArray alloc] initWithObjects:@"Математика", @"Физика", @"Программирование", nil];
     self.types = [[NSMutableArray alloc] initWithObjects:@"Домашняя работа", @"Контрольная работа", @"Курсовой проект", nil];
     self.currentUser = [[Person alloc] init];
+    self.isEdit = NO;
     //[self aMethod];
     
     return YES;

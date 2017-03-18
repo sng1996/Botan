@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
 @interface RegisterViewController : UIViewController{
     
+    IBOutlet AppDelegate *mainDelegate;
     IBOutlet UITextField *loginTextField;
     IBOutlet UITextField *nameTextField;
     IBOutlet UITextField *passwordTextField;

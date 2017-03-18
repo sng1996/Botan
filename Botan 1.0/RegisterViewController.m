@@ -18,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    mainDelegate = (AppDelegate *)[[ UIApplication sharedApplication] delegate];
     // Do any additional setup after loading the view.
 }
 
@@ -89,8 +90,9 @@
     NSInteger answerCode = [[responseDic objectForKey:@"code"] intValue];
     
     if(answerCode == 0){
+        mainDelegate.currentUser._id = [[responseDic objectForKey:@"id"] intValue];
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-        MainViewController *mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+        MainViewController *mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"tabBarController"];
         [self presentViewController:mainViewController animated:YES completion:nil];
     }
     

@@ -16,6 +16,7 @@
     IBOutlet UILabel *headLabel;
     IBOutlet UIButton *rightBtn;
     IBOutlet UIButton *leftBtn;
+    IBOutlet UIButton *centerBtn;
     IBOutlet UILabel *infoLabel;
     IBOutlet UILabel *nickLabel;
     IBOutlet UIView *profileView;
@@ -32,6 +33,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *headLabel;
 @property (nonatomic, strong) IBOutlet UIButton *rightBtn;
 @property (nonatomic, strong) IBOutlet UIButton *leftBtn;
+@property (nonatomic, strong) IBOutlet UIButton *centerBtn;
 @property (nonatomic, strong) IBOutlet UILabel *infoLabel;
 @property (nonatomic, strong) IBOutlet UILabel *nickLabel;
 @property (nonatomic, strong) IBOutlet UIView *profileView;

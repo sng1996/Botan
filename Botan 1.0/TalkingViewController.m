@@ -20,10 +20,10 @@
     [self aMethod];
     mainDelegate = (AppDelegate *)[[ UIApplication sharedApplication] delegate];
     
-    if (mainDelegate.currentUser._id == 1){
-        currentСompanionId = 15;
+    if (mainDelegate.currentUser._id == mainDelegate.currentOrder.customer._id){
+        currentСompanionId = mainDelegate.currentOrder.performer._id;
     }else{
-        currentСompanionId = 1;
+        currentСompanionId = mainDelegate.currentOrder.customer._id;
     }
     
     messageTxtView.autocorrectionType = UITextAutocorrectionTypeNo;

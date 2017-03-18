@@ -19,7 +19,10 @@
         theRating:(NSInteger)r
        theBalance:(NSInteger)b
        theReviews:(NSMutableArray *)rev
-         thePhoto:(NSString *)ph{
+         thePhoto:(NSString *)ph
+          theCost:(NSInteger)c
+          theDate:(NSString *)d
+{
     
     if (self = [super init]){
         [self setEmail:e];
@@ -31,6 +34,8 @@
         [self setBalance:b];
         [self setReviews:rev];
         [self setPhoto:ph];
+        [self setCost:c];
+        [self setDate:d];
     }
     return self;
     

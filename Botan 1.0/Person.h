@@ -19,6 +19,8 @@
     NSInteger balance;
     NSMutableArray *reviews;
     NSString *photo;
+    NSInteger cost;
+    NSString *date;
 }
 
 @property NSInteger _id;
@@ -31,6 +33,8 @@
 @property NSInteger balance;
 @property (nonatomic, strong) NSMutableArray *reviews;
 @property (nonatomic, strong) NSString *photo;
+@property NSInteger cost;
+@property (nonatomic, strong) NSString *date;
 
 -(id)initWithData:(NSInteger)i
             theEmail:(NSString *)e
@@ -41,5 +45,7 @@
            theRating:(NSInteger)r
           theBalance:(NSInteger)b
           theReviews:(NSMutableArray *)rev
-            thePhoto:(NSString *)ph;
+            thePhoto:(NSString *)ph
+             theCost:(NSInteger)c
+             theDate:(NSString *)d;
 @end

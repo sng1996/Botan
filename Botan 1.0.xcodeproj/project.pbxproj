@@ -42,6 +42,8 @@
 		2AB668D81E77448F0072C432 /* TalkingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB668D71E77448F0072C432 /* TalkingViewController.m */; };
 		2AD0874C1E6C7576000B3FEB /* EnterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD0874B1E6C7576000B3FEB /* EnterViewController.m */; };
 		2AD0874F1E6C758A000B3FEB /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD0874E1E6C758A000B3FEB /* RegisterViewController.m */; };
+		2AD73AC21E7D3A9E00E5DB66 /* info.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2AD73AC11E7D3A9E00E5DB66 /* info.txt */; };
+		2AD73AC51E7D5ECB00E5DB66 /* ChooseExecutorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD73AC41E7D5ECB00E5DB66 /* ChooseExecutorViewController.m */; };
 		2AEE7CCA1E634E2700A41397 /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AEE7CC91E634E2700A41397 /* libicucore.tbd */; };
 		2AEE7CCC1E634E3500A41397 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AEE7CCB1E634E3500A41397 /* CFNetwork.framework */; };
 		2AEE7CCE1E634E4000A41397 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AEE7CCD1E634E4000A41397 /* Security.framework */; };
@@ -133,6 +135,9 @@
 		2AD0874B1E6C7576000B3FEB /* EnterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterViewController.m; sourceTree = "<group>"; };
 		2AD0874D1E6C758A000B3FEB /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		2AD0874E1E6C758A000B3FEB /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		2AD73AC11E7D3A9E00E5DB66 /* info.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = info.txt; sourceTree = "<group>"; };
+		2AD73AC31E7D5ECB00E5DB66 /* ChooseExecutorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseExecutorViewController.h; sourceTree = "<group>"; };
+		2AD73AC41E7D5ECB00E5DB66 /* ChooseExecutorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseExecutorViewController.m; sourceTree = "<group>"; };
 		2ADE3F511E5B98FB0054288D /* Botan 1.0.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Botan 1.0.entitlements"; sourceTree = "<group>"; };
 		2AEE7CC91E634E2700A41397 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		2AEE7CCB1E634E3500A41397 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -255,7 +260,10 @@
 				2AB668D41E7741BB0072C432 /* MessageViewController.m */,
 				2AB668D61E77448F0072C432 /* TalkingViewController.h */,
 				2AB668D71E77448F0072C432 /* TalkingViewController.m */,
+				2AD73AC31E7D5ECB00E5DB66 /* ChooseExecutorViewController.h */,
+				2AD73AC41E7D5ECB00E5DB66 /* ChooseExecutorViewController.m */,
 				2A9E856E1E67974400D7BF89 /* main.m */,
+				2AD73AC11E7D3A9E00E5DB66 /* info.txt */,
 				2ADE3F511E5B98FB0054288D /* Botan 1.0.entitlements */,
 				2A17293A1E5E2AA300806286 /* avatar.png */,
 				2A4608AF1E7059CC00FA620D /* elf.jpg */,
@@ -458,6 +466,7 @@
 				2A1729371E5DBD6500806286 /* JSON in Resources */,
 				2A4608B01E7059CC00FA620D /* elf.jpg in Resources */,
 				2A51DDDB1E7099CC00E346D4 /* noimage.png in Resources */,
+				2AD73AC21E7D3A9E00E5DB66 /* info.txt in Resources */,
 				2AA032551E5489FD00AD7067 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -622,6 +631,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A9E85701E679C0A00D7BF89 /* main.m in Sources */,
+				2AD73AC51E7D5ECB00E5DB66 /* ChooseExecutorViewController.m in Sources */,
 				2A5F15ED1E73242E004F9984 /* GalleryViewController.m in Sources */,
 				2A9E84941E6773C000D7BF89 /* GetOrderViewController.m in Sources */,
 				2A9E849A1E6773C000D7BF89 /* Person.m in Sources */,

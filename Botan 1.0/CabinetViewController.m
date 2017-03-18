@@ -86,7 +86,50 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    arrForTable = [[NSMutableArray alloc] init];
 }
+
+-(void)viewDidAppear:(BOOL)animated{
+    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/current_orders/?id=%ld", (long)mainDelegate.currentOrder.customer._id];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    mainDelegate.jsonData = data;
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSLog(@"%@", error);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    [arrForTable removeAllObjects];
+    NSDictionary *responseDic = [NSJSONSerialization JSONObjectWithData:mainDelegate.jsonData options:NSJSONReadingMutableContainers error:nil];
+    if ([NSJSONSerialization isValidJSONObject:responseDic])
+    {
+        NSArray *array = [responseDic objectForKey:@"response"];
+        [array enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+            Order *order = [[Order alloc] init];
+            order._id = [[obj objectForKey:@"id"] integerValue];
+            order.category = [[obj objectForKey:@"category"] integerValue];
+            order.foto = NULL;
+            order.description = [obj objectForKey:@"description"];
+            order.cost = [[obj objectForKey:@"cost"] integerValue];
+            order.date = [obj objectForKey:@"end_date"];
+            order.customer._id = [[obj objectForKey:@"client"] integerValue];
+            order.performer._id = [[obj objectForKey:@"executor"] integerValue];
+            order.dateOrder = [obj objectForKey:@"create_date"];
+            order.type = [[obj objectForKey:@"type"] integerValue];
+            order.subject = [obj objectForKey:@"subject"];
+            [arrForTable addObject:order];
+        }];
+        
+    }
+    [mainTableView reloadData];
+    
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

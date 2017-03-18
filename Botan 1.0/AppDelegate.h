@@ -31,6 +31,7 @@
     NSMutableArray *imageArray; //for cameraViewController
     Person *currentUser;
     Order *currentOrder;
+    Boolean isEdit; //for connection between GetOrderViewController and AddOrderViewController
 }
 
 @property (strong, nonatomic) UIWindow *window;
@@ -46,6 +47,7 @@
 @property (strong, nonatomic) NSMutableArray *imageArray;
 @property (strong, nonatomic) Person *currentUser;
 @property (strong, nonatomic) Order *currentOrder;
+@property Boolean isEdit;
 
 - (void)sendMessage:(NSString *) string;
 

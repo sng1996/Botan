@@ -90,11 +90,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/get_all_orders"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
     mainDelegate = (AppDelegate *)[[ UIApplication sharedApplication] delegate];
 }
 
@@ -114,13 +109,17 @@
         NSArray *array = [responseDic objectForKey:@"response"];
         [array enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
             Order *order = [[Order alloc] init];
+            order.customer = [[Person alloc] init];
+            order.performer = [[Person alloc] init];
             order._id = [[obj objectForKey:@"id"] integerValue];
+            NSLog(@"order._id = %d", order._id);
             order.category = [[obj objectForKey:@"category"] integerValue];
             order.foto = NULL;
             order.description = [obj objectForKey:@"description"];
             order.cost = [[obj objectForKey:@"cost"] integerValue];
             order.date = [obj objectForKey:@"end_date"];
             order.customer._id = [[obj objectForKey:@"client"] integerValue];
+            NSLog(@"order.customer._id = %d", order.customer._id);
             order.performer._id = [[obj objectForKey:@"executor"] integerValue];
             order.dateOrder = [obj objectForKey:@"create_date"];
             order.type = [[obj objectForKey:@"type"] integerValue];
@@ -136,7 +135,9 @@
 
 
 -(void)viewDidAppear:(BOOL)animated{
-    
+    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/get_all_orders"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     arrForTable = [mainDelegate.orders mutableCopy];
     if (![[mainDelegate.arrOfResult objectAtIndex:1] isEqualToString:@""]){
         for (int i = 0; i < [arrForTable count]; i++){

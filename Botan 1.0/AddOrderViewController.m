@@ -11,6 +11,7 @@
 #import "Order.h"
 #import "JSON/SBJson.h"
 #import "ImageButton.h"
+#import "MainViewController.h"
 
 @interface AddOrderViewController ()
 
@@ -20,12 +21,30 @@
 @synthesize mainDelegate, order, pictureButton, pictureView, datePicker, costTxtFld, descriptionTextView, sbjTxtFld, editBtn, typeLbl, categoryLbl, jsonData, scrollView, rightBarBtn;
 
 -(IBAction)unwindToThisViewController:(UIStoryboardSegue *)sender{
-    
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     mainDelegate = (AppDelegate *)[[ UIApplication sharedApplication] delegate];
+    if (mainDelegate.isEdit){
+        mainDelegate.category = mainDelegate.currentOrder.category;
+        mainDelegate.type = mainDelegate.currentOrder.type;
+        sbjTxtFld.text = mainDelegate.currentOrder.subject;
+        descriptionTextView.text = mainDelegate.currentOrder.description;
+        costTxtFld.text = [NSString stringWithFormat:@"%d", mainDelegate.currentOrder.cost];
+        /*NSString *dateString = mainDelegate.currentOrder.date;
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSDate *dateFromString = [[NSDate alloc] init];
+        dateFromString = [dateFormatter dateFromString:dateString];
+        datePicker.date = dateFromString;*/
+        
+        //строка с датой почему то null
+        
+        //+photo
+        
+    }
     categoryLbl.text = [mainDelegate.categories objectAtIndex:mainDelegate.category];
     typeLbl.text = [mainDelegate.types objectAtIndex:mainDelegate.type];
     
@@ -94,6 +113,7 @@
     order.customer = mainDelegate.currentUser;
     [mainDelegate.orders addObject:order];
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                          [NSNumber numberWithInteger: mainDelegate.currentOrder._id], @"id",
                           [NSNumber numberWithInteger: order.cost], @"cost",
                           order.date, @"date",
                           order.subject, @"subject",
@@ -101,8 +121,13 @@
                           [NSNumber numberWithInteger: order.category], @"category",
                           order.description, @"description",
                           [NSNumber numberWithInteger: order.status], @"status",
-                          order.customer, @"client", nil];
-    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/create"];
+                          [NSNumber numberWithInteger: order.customer._id], @"client", nil];
+    NSString *url;
+    if (mainDelegate.isEdit){
+        url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/edit"];
+    }else{
+        url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/create"];
+    }
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL
                                                                         URLWithString:url]
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15.0];
@@ -114,14 +139,13 @@
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [request setHTTPBody:jsonData];
         NSLog(@"%@", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    if (connection){
-        NSLog(@"OK");
+        NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        if (connection){
+            NSLog(@"OK");
+        }else{
+            NSLog(@"ERROR");
+        }
     }else{
-        NSLog(@"ERROR");
-    }
-    }
-    else{
         NSLog(@"ERROR!!!!!!!!!!!!!!!");
     }
     }
@@ -143,17 +167,30 @@
     {
         NSLog(@"code = %@", [responseDic objectForKey:@"code"]);
     }
-    NSLog( @"RESULT IS %@", result);
     
-    NSInteger answerCode = [[responseDic objectForKey:@"code"] intValue];
+    NSInteger code = [[responseDic objectForKey:@"code"] intValue];
+    UIAlertController *alert;
     
-    if(answerCode == 0){
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:@"Заказ успешно добавлен" preferredStyle:UIAlertControllerStyleAlert];
+    
+    switch (code){
+            
+        case 104: //заказ успешно добавлен
+            alert = [UIAlertController alertControllerWithTitle:@"" message:@"Заказ успешно добавлен" preferredStyle:UIAlertControllerStyleAlert];
+            break;
         
+        case 105: //заказ успешно отредактирован
+            alert = [UIAlertController alertControllerWithTitle:@"" message:@"Заказ успешно отредактирован" preferredStyle:UIAlertControllerStyleAlert];
+            break;
+    }
+    
+    if (alert != NULL){
         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"Ok"
                                                      style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action)
                              {
+                                 UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                                 MainViewController *mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"tabBarController"];
+                                 [self presentViewController:mainViewController animated:YES completion:nil];
                                  
                              }];
         
