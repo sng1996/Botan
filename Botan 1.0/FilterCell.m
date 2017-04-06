@@ -9,35 +9,22 @@
 #import "FilterCell.h"
 
 @implementation FilterCell
-@synthesize label, label2, deleteBtn;
+@synthesize label;
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier: reuseIdentifier];
     
     if (self){
-        label = [[UILabel alloc] init];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(19, 10, 300, 19)];
         label.textAlignment = NSTextAlignmentLeft;
-        label.font = [UIFont systemFontOfSize:20];
-        label.backgroundColor = [UIColor clearColor];
-        label.textColor = [UIColor blackColor];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
+        label.textColor = [UIColor blackColor];//[UIColor colorWithRed:56.0f/255.0f green:188.0f/255.0f blue:156.0f/255.0f alpha:1.0f];
         label.numberOfLines = 1;
         label.minimumFontSize = 10;
         label.adjustsFontSizeToFitWidth = YES;
         
-        label2 = [[UILabel alloc] init];
-        label2.textAlignment = NSTextAlignmentLeft;
-        label2.font = [UIFont systemFontOfSize:12];
-        label2.backgroundColor = [UIColor clearColor];
-        label2.textColor = [UIColor grayColor];
-        label2.numberOfLines = 1;
-        label2.minimumFontSize = 10;
-        label2.adjustsFontSizeToFitWidth = YES;
-        
-        deleteBtn = [[UIButton alloc] init];
-        
         [self.contentView addSubview:label];
-        [self.contentView addSubview:label2];
-        [self.contentView addSubview:deleteBtn];
+
     }
     return self;
 }
@@ -45,13 +32,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

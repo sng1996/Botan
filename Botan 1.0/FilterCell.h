@@ -9,13 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface FilterCell : UITableViewCell{
+    
     UILabel *label;
-    UILabel *label2;
-    UIButton *deleteBtn;
+    
 }
 
 @property (nonatomic, strong) UILabel *label;
-@property (nonatomic, strong) UILabel *label2;
-@property (nonatomic, strong) UIButton *deleteBtn;
 
 @end

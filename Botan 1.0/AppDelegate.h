@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Order.h"
 #import "Person.h"
+#import "Filter.h"
 #import "CRVStompClient.h"
 #import <Pusher/Pusher.h>
 
@@ -19,9 +20,12 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate, SRWebSocketDelegate>{
     NSMutableArray *orders; //MainViewController
     NSMutableArray *myOrders; //CabinetViewController
-    NSMutableArray *categories;
+    NSMutableArray *science;
     NSMutableArray *types;
     NSMutableArray *arrOfResult; //MainViewController
+    NSMutableArray *currentFilterArray;
+    NSInteger currentFilterObject;
+    Filter *filter;
     SRWebSocket *webSocket;
     NSInteger category; //AddOrderViewController
     NSInteger type; //AddOrderViewController
@@ -38,8 +42,11 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) NSMutableArray *orders;
 @property (strong, nonatomic) NSMutableArray *arrOfResult;
-@property (strong, nonatomic) NSMutableArray *categories;
+@property (strong, nonatomic) NSMutableArray *science;
 @property (strong, nonatomic) NSMutableArray *types;
+@property (strong, nonatomic) NSMutableArray *currentFilterArray;
+@property NSInteger currentFilterObject;
+@property (strong, nonatomic) Filter *filter;
 @property NSInteger category;
 @property NSInteger type;
 @property (strong, nonatomic) NSString *date;

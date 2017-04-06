@@ -15,7 +15,7 @@
 @end
 
 @implementation AppDelegate
-@synthesize orders, arrOfResult, categories, types, category, type, date, jsonData, arrOfPictures, imageArray, currentUser, currentOrder, isEdit, viewWidth;
+@synthesize orders, arrOfResult, science, types, category, type, date, jsonData, arrOfPictures, imageArray, currentUser, currentOrder, isEdit, viewWidth, currentFilterArray, currentFilterObject, filter;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -23,9 +23,13 @@
     self.arrOfPictures = [[NSMutableArray alloc] init];
     self.imageArray = [[NSMutableArray alloc] init];
     self.arrOfResult = [[NSMutableArray alloc] initWithObjects:@"", @"", @"", nil];
-    self.categories = [[NSMutableArray alloc] initWithObjects:@"Математика", @"Физика", @"Программирование", nil];
-    self.types = [[NSMutableArray alloc] initWithObjects:@"Домашняя работа", @"Контрольная работа", @"Курсовой проект", nil];
+    self.science = [[NSMutableArray alloc] initWithObjects:@"Все области", @"Математика", @"Физика", @"Программирование", nil];
+    self.types = [[NSMutableArray alloc] initWithObjects:@"Все типы", @"Домашняя работа", @"Контрольная работа", @"Курсовой проект", nil];
     self.currentUser = [[Person alloc] init];
+    self.filter = [[Filter alloc] init];
+    self.filter.science = 0;
+    self.filter.type = 0;
+    self.filter.sort = 0;
     self.isEdit = NO;
     //[self aMethod];
     

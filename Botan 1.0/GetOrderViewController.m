@@ -62,7 +62,7 @@
     
     headLabel.text = mainDelegate.currentOrder.subject;
     costLabel.text = [NSString stringWithFormat:@"%ld руб.", (long)mainDelegate.currentOrder.cost];
-    categoryLabel.text = [mainDelegate.categories objectAtIndex: mainDelegate.currentOrder.category];
+    categoryLabel.text = [mainDelegate.science objectAtIndex: mainDelegate.currentOrder.category];
     typeLabel.text = [mainDelegate.types objectAtIndex: mainDelegate.currentOrder.type];
     beginLabel.text = mainDelegate.currentOrder.dateOrder;
     endLabel.text = mainDelegate.currentOrder.date;

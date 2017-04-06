@@ -124,14 +124,14 @@
             order.customer = [[Person alloc] init];
             order.performer = [[Person alloc] init];
             order._id = [[obj objectForKey:@"id"] integerValue];
-            NSLog(@"order._id = %d", order._id);
+            NSLog(@"order._id = %ld", (long)order._id);
             order.category = [[obj objectForKey:@"category"] integerValue];
             order.foto = NULL;
             order.description = [obj objectForKey:@"description"];
             order.cost = [[obj objectForKey:@"cost"] integerValue];
             order.date = [obj objectForKey:@"end_date"];
             order.customer._id = [[obj objectForKey:@"client"] integerValue];
-            NSLog(@"order.customer._id = %d", order.customer._id);
+            NSLog(@"order.customer._id = %ld", (long)order.customer._id);
             order.performer._id = [[obj objectForKey:@"executor"] integerValue];
             order.dateOrder = [obj objectForKey:@"create_date"];
             order.type = [[obj objectForKey:@"type"] integerValue];
@@ -143,6 +143,11 @@
     arrForTable = [mainDelegate.orders mutableCopy];
     [mainTableView reloadData];
     
+}
+
+-(IBAction)deleteFilter:(UIButton *)sender{
+    [mainDelegate.arrOfResult replaceObjectAtIndex:sender.tag withObject:@""];
+    sender.hidden = YES;
 }
 
 
@@ -185,6 +190,5 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 @end

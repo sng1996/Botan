@@ -45,7 +45,7 @@
         //+photo
         
     }
-    categoryLbl.text = [mainDelegate.categories objectAtIndex:mainDelegate.category];
+    categoryLbl.text = [mainDelegate.science objectAtIndex:mainDelegate.category];
     typeLbl.text = [mainDelegate.types objectAtIndex:mainDelegate.type];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 40.0)];
