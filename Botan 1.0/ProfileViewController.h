@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
-@interface ProfileViewController : UIViewController
+@interface ProfileViewController : UIViewController{
+    
+    AppDelegate *mainDelegate;
+    IBOutlet UILabel *ordersDoneLbl;
+    IBOutlet UILabel *ratingLbl;
+    IBOutlet UILabel *balanceLbl;
+    IBOutlet UILabel *ordersCreateLbl;
+}
+
+@property (nonatomic, strong) IBOutlet UILabel *ordersDoneLbl;
+@property (nonatomic, strong) IBOutlet UILabel *ratingLbl;
+@property (nonatomic, strong) IBOutlet UILabel *balanceLbl;
+@property (nonatomic, strong) IBOutlet UILabel *ordersCreateLbl;
 
 @end

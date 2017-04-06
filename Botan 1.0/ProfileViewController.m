@@ -7,31 +7,55 @@
 //
 
 #import "ProfileViewController.h"
+#import "EnterViewController.h"
 
 @interface ProfileViewController ()
 
 @end
 
 @implementation ProfileViewController
+@synthesize  ordersDoneLbl, ratingLbl, balanceLbl, ordersCreateLbl;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/profile/more_info/?id=%ld", (long)mainDelegate.currentOrder.customer._id];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(IBAction)quit:(UIButton *)sender{
+    
+    mainDelegate.currentUser = NULL;
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    EnterViewController *enterViewController =  (EnterViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"enterViewController"];
+    [self presentViewController:enterViewController animated:YES completion:nil];
+    
 }
-*/
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    mainDelegate.jsonData = data;
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSLog(@"%@", error);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSDictionary *responseDic = [NSJSONSerialization JSONObjectWithData:mainDelegate.jsonData options:NSJSONReadingMutableContainers error:nil];
+    if ([NSJSONSerialization isValidJSONObject:responseDic])
+    {
+        NSDictionary *respDict = [responseDic objectForKey:@"response"];
+        ordersCreateLbl.text = [respDict objectForKey:@"orders_create"];
+        ordersDoneLbl.text = [respDict objectForKey:@"orders_done"];
+        ratingLbl.text = [respDict objectForKey:@"rating"];
+        
+    }
+    
+}
 
 @end

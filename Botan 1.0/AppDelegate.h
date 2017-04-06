@@ -32,6 +32,7 @@
     Person *currentUser;
     Order *currentOrder;
     Boolean isEdit; //for connection between GetOrderViewController and AddOrderViewController
+    float viewWidth;
 }
 
 @property (strong, nonatomic) UIWindow *window;
@@ -48,6 +49,7 @@
 @property (strong, nonatomic) Person *currentUser;
 @property (strong, nonatomic) Order *currentOrder;
 @property Boolean isEdit;
+@property float viewWidth;
 
 - (void)sendMessage:(NSString *) string;
 

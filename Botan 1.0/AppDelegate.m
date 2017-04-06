@@ -15,7 +15,7 @@
 @end
 
 @implementation AppDelegate
-@synthesize orders, arrOfResult, categories, types, category, type, date, jsonData, arrOfPictures, imageArray, currentUser, currentOrder, isEdit;
+@synthesize orders, arrOfResult, categories, types, category, type, date, jsonData, arrOfPictures, imageArray, currentUser, currentOrder, isEdit, viewWidth;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

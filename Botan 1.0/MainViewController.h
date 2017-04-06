@@ -15,6 +15,10 @@
     IBOutlet UITableView *mainTableView;
     IBOutlet UIBarButtonItem *barButtonItemLeft;
     IBOutlet NSMutableArray *arrForTable;
+    
+    UIView *upperView;
+    UIView *bottomView;
+    float cellY;
 
 }
 

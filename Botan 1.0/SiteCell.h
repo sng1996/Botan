@@ -7,21 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
 @interface SiteCell : UITableViewCell{
+    AppDelegate *mainDelegate;
     UILabel *typeLabel;
     UILabel *subjectLabel;
-    UILabel *dateLabel;
+    UILabel *beginDateLabel;
+    UILabel *endDateLabel;
     UILabel *costLabel;
-    UILabel *descriptLabel;
-    UIImageView *imageView;
+    UILabel *rubLbl;
 }
 
 @property (nonatomic, strong) UILabel *typeLabel;
 @property (nonatomic, strong) UILabel *subjectLabel;
-@property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) UILabel *dateLabel;
 @property (nonatomic, strong) UILabel *costLabel;
-@property (nonatomic, strong) UILabel *descriptLabel;
+@property (nonatomic, strong) UILabel *beginDateLabel;
+@property (nonatomic, strong) UILabel *endDateLabel;
+@property (nonatomic, strong) UILabel *rubLbl;
+
 
 @end

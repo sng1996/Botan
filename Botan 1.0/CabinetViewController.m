@@ -46,7 +46,7 @@
     cell.imageView.frame = CGRectMake(10, 15, 40, 40);
     cell.subjectLabel.frame = CGRectMake(60, 0, self.view.frame.size.width*0.5f, 20);
     cell.typeLabel.frame = CGRectMake(60, 20, self.view.frame.size.width*0.5f, 15);
-    cell.descriptLabel.frame = CGRectMake(60, 35, self.view.frame.size.width*0.5f, 30);
+    /*cell.descriptLabel.frame = CGRectMake(60, 35, self.view.frame.size.width*0.5f, 30);
     cell.dateLabel.frame = CGRectMake(self.view.frame.size.width*0.5f + 65, 60, self.view.frame.size.width*0.5f - 65, 10);
     cell.costLabel.frame = CGRectMake(self.view.frame.size.width*0.5f + 65, 35, self.view.frame.size.width*0.5f - 65, 20);
     
@@ -60,8 +60,8 @@
     cell.typeLabel.text = [NSString stringWithFormat:@"#%@ #%@", [mainDelegate.types objectAtIndex:order.type], [mainDelegate.types objectAtIndex:order.category]];
     cell.subjectLabel.text = order.subject;
     cell.descriptLabel.text = order.description;
-    cell.dateLabel.text = order.date;
-    cell.costLabel.text = [NSString stringWithFormat:@"%ld", (long)order.cost];
+    cell.dateLabel.text = order.date;*/
+    //cell.costLabel.text = [NSString stringWithFormat:@"%ld", (long)order.cost];
     
     
     cell.accessoryType = UITableViewCellStyleDefault;

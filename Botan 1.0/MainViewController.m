@@ -45,25 +45,14 @@
     
     NSInteger row = indexPath.row;
     
-    cell.imageView.frame = CGRectMake(10, 15, 40, 40);
-    cell.subjectLabel.frame = CGRectMake(60, 0, self.view.frame.size.width*0.5f, 20);
-    cell.typeLabel.frame = CGRectMake(60, 20, self.view.frame.size.width*0.5f, 15);
-    cell.descriptLabel.frame = CGRectMake(60, 35, self.view.frame.size.width*0.5f, 30);
-    cell.dateLabel.frame = CGRectMake(self.view.frame.size.width*0.5f + 65, 60, self.view.frame.size.width*0.5f - 65, 10);
-    cell.costLabel.frame = CGRectMake(self.view.frame.size.width*0.5f + 65, 35, self.view.frame.size.width*0.5f - 65, 20);
-    
-    cell.typeLabel.textColor = [UIColor blackColor];
-    cell.subjectLabel.textColor = [UIColor blackColor];
-    cell.dateLabel.textColor = [UIColor blackColor];
-    cell.costLabel.textColor = [UIColor blackColor];
-    cell.descriptLabel.textColor = [UIColor blackColor];
     
     Order *order = [arrForTable objectAtIndex:row];
-    cell.typeLabel.text = [NSString stringWithFormat:@"#%@ #%@", [mainDelegate.types objectAtIndex:order.type], [mainDelegate.types objectAtIndex:order.category]];
+    cell.typeLabel.text = [NSString stringWithFormat:@"%@", [mainDelegate.types objectAtIndex:order.type]];
     cell.subjectLabel.text = order.subject;
-    cell.descriptLabel.text = order.description;
-    cell.dateLabel.text = order.date;
+    cell.endDateLabel.text = order.date;
+    cell.beginDateLabel.text = order.dateOrder;
     cell.costLabel.text = [NSString stringWithFormat:@"%ld", (long)order.cost];
+    [cell setBackgroundColor:[UIColor whiteColor]];
     
     
     cell.accessoryType = UITableViewCellStyleDefault;
@@ -77,12 +66,26 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    mainDelegate.currentOrder = [arrForTable objectAtIndex:(NSInteger)indexPath.row];
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    /*if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }*/
+    
+    
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    /*mainDelegate.currentOrder = [arrForTable objectAtIndex:(NSInteger)indexPath.row];
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
     GetOrderViewController *getOrderViewController =  (GetOrderViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"getOrderViewController"];
-    [self presentViewController:getOrderViewController animated:YES completion:nil];
+    [self presentViewController:getOrderViewController animated:YES completion:nil];*/
     
 }
+
 
 -(IBAction)unwindToThisViewController:(UIStoryboardSegue *)sender{
     
@@ -91,6 +94,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     mainDelegate = (AppDelegate *)[[ UIApplication sharedApplication] delegate];
+    mainDelegate.viewWidth = self.view.frame.size.width;
+    arrForTable = [[NSMutableArray alloc] init];
+    Order *order = [[Order alloc] init];
+    order.subject = @"Аналитическая геометрия";
+    order.type = 0;
+    order.date = @"Завтра, 19:00";
+    order.dateOrder = @"03.01";
+    order.cost = 1500;
+    [arrForTable addObject:order];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
@@ -135,7 +147,7 @@
 
 
 -(void)viewDidAppear:(BOOL)animated{
-    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/get_all_orders"];
+    /*NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/get_all_orders"];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     arrForTable = [mainDelegate.orders mutableCopy];
@@ -168,7 +180,7 @@
     if ([[mainDelegate.arrOfResult objectAtIndex:0] isEqualToString:@"Сначала срочные"]){
         arrForTable = [arrForTable sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending: true]]];
     }
-    [mainTableView reloadData];
+    [mainTableView reloadData];*/
 }
 
 - (void)didReceiveMemoryWarning {
