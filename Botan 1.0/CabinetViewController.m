@@ -112,14 +112,14 @@
         [array enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
             Order *order = [[Order alloc] init];
             order._id = [[obj objectForKey:@"id"] integerValue];
-            order.category = [[obj objectForKey:@"category"] integerValue];
+            order.science = [[obj objectForKey:@"category"] integerValue];
             order.foto = NULL;
             order.description = [obj objectForKey:@"description"];
             order.cost = [[obj objectForKey:@"cost"] integerValue];
-            order.date = [obj objectForKey:@"end_date"];
+            order.endDate = [obj objectForKey:@"end_date"];
             order.customer._id = [[obj objectForKey:@"client"] integerValue];
             order.performer._id = [[obj objectForKey:@"executor"] integerValue];
-            order.dateOrder = [obj objectForKey:@"create_date"];
+            order.beginDate = [obj objectForKey:@"create_date"];
             order.type = [[obj objectForKey:@"type"] integerValue];
             order.subject = [obj objectForKey:@"subject"];
             [arrForTable addObject:order];

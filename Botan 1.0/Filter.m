@@ -31,5 +31,13 @@
     
 }
 
+-(id)copyWithZone:(NSZone *)zone
+{
+
+    Filter *filterCopy = [[Filter alloc] init];
+    [filterCopy initWithData:science theType:type theSort:sort theSortSubject:sortSubject theMinCost:minCost theMaxCost:maxCost];
+    return filterCopy;
+}
+
 
 @end

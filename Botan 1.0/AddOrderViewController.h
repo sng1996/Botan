@@ -9,41 +9,41 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
-@interface AddOrderViewController : UIViewController <UITextFieldDelegate>{
+@interface AddOrderViewController : UIViewController <UITextViewDelegate, UIScrollViewDelegate>{
     
     AppDelegate *mainDelegate;
     Order *order;
-    IBOutlet UIBarButtonItem *rightBarBtn;
-    IBOutlet UIScrollView *scrollView;
-    IBOutlet UIButton *pictureButton;
-    IBOutlet UIView *pictureView;
+    
     IBOutlet UIDatePicker *datePicker;
     IBOutlet UITextField *costTxtFld;
-    IBOutlet UITextView *descriptionTextView;
-    IBOutlet UITextField *sbjTxtFld;
-    IBOutlet UIButton *editBtn;
+    IBOutlet UITextView *descriptionTxtView;
+    IBOutlet UITextField *subjectTxtFld;
     IBOutlet UILabel *typeLbl;
-    IBOutlet UILabel *categoryLbl;
+    IBOutlet UILabel *scienceLbl;
+    IBOutlet UILabel *dateLbl;
+    IBOutlet UIScrollView *scroller;
+    IBOutlet UIScrollView *mainScroller;
+    IBOutlet UIView *dateView;
+    IBOutlet UIView *descriptionView;
+    
     NSData *jsonData;
-    UIImageView *picture;
-    NSInteger currentTextField; //look at the tags
+    NSMutableArray *photoButtons;
+    
+    NSInteger flag;
     
 }
 
-@property (nonatomic, strong) AppDelegate *mainDelegate;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *rightBarBtn;
-@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, strong) IBOutlet UIButton *pictureButton;
-@property (nonatomic, strong) IBOutlet UIView *pictureView;
 @property (nonatomic, strong) IBOutlet UIDatePicker *datePicker;
 @property (nonatomic, strong) IBOutlet UITextField *costTxtFld;
-@property (nonatomic, strong) IBOutlet UITextView *descriptionTextView;
-@property (nonatomic, strong) IBOutlet UITextField *sbjTxtFld;
-@property (nonatomic, strong) IBOutlet UIButton *editBtn;
+@property (nonatomic, strong) IBOutlet UITextView *descriptionTxtView;
+@property (nonatomic, strong) IBOutlet UITextField *subjectTxtFld;
 @property (nonatomic, strong) IBOutlet UILabel *typeLbl;
-@property (nonatomic, strong) IBOutlet UILabel *categoryLbl;
-@property (nonatomic, strong) Order *order;
-@property (nonatomic, strong) NSData *jsonData;
+@property (nonatomic, strong) IBOutlet UILabel *scienceLbl;
+@property (nonatomic, strong) IBOutlet UILabel *dateLbl;
+@property (nonatomic, strong) IBOutlet UIScrollView *scroller;
+@property (nonatomic, strong) IBOutlet UIScrollView *mainScroller;
+@property (nonatomic, strong) IBOutlet UIView *descriptionView;
+
 
 
 -(IBAction)addOrder:(UIButton *)sender;

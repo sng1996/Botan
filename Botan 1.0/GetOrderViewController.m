@@ -17,144 +17,46 @@
 @end
 
 @implementation GetOrderViewController
-@synthesize taskImage, headLabel, rightBtn, leftBtn, centerBtn, infoLabel, nickLabel, profileView, descriptionTextView, descriptionView, costLabel, categoryLabel, typeLabel, beginLabel, endLabel;
+@synthesize typeLbl, beginDateLbl, endDateLbl, costLbl, descriptionLbl, scroller, pageControl;
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     mainDelegate = (AppDelegate *)[[ UIApplication sharedApplication] delegate];
-    
-    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/person/profile/?id=%ld", (long)mainDelegate.currentOrder.customer._id];
-    NSLog(@"current order id = %d", mainDelegate.currentOrder._id);
-    [self sendToServer:url];
 
+    //init labels
+    costLbl.text = [NSString stringWithFormat:@"%ld ₽", (long)mainDelegate.currentOrder.cost];
+    typeLbl.text = [mainDelegate.types objectAtIndex: mainDelegate.currentOrder.type];
+    beginDateLbl.text = mainDelegate.currentOrder.beginDate;
+    endDateLbl.text = mainDelegate.currentOrder.endDate;
+    descriptionLbl.text = mainDelegate.currentOrder.description;
     
-    if (mainDelegate.currentOrder.customer._id == mainDelegate.currentUser._id){
-        [rightBtn setTitle:@"Удалить" forState:UIControlStateNormal];
-        [leftBtn setTitle:@"Редактировать" forState:UIControlStateNormal];
-        if (mainDelegate.currentOrder.performer._id > 0){
-            [centerBtn setTitle:@"чат" forState:UIControlStateNormal];
-            [centerBtn setTag:3];
-        }else{
-            [centerBtn setTitle:@"выбор" forState:UIControlStateNormal];
-            [centerBtn setTag:7];
-        }
-        [rightBtn setTag:1];
-        [leftBtn setTag:2];
-    }else{
+    //init array of images
+    imagesArray = [[NSMutableArray alloc] init];
+    UIImage *image = [[UIImage alloc] init];
+    image = [UIImage imageNamed:@"glass.jpg"];
+    [imagesArray addObject:image];
+    [imagesArray addObject:image];
+    [imagesArray addObject:image];
+    [imagesArray addObject:image];
     
-        if (mainDelegate.currentOrder.performer._id == mainDelegate.currentUser._id){
-            [rightBtn setTitle:@"Чат" forState:UIControlStateNormal];
-            [leftBtn setTitle:@"Завершить" forState:UIControlStateNormal];
-            centerBtn.hidden = YES;
-            [rightBtn setTag:3];
-            [leftBtn setTag:4];
-        }else{
-            [rightBtn setTitle:@"Взять" forState:UIControlStateNormal];
-            [leftBtn setTitle:@"Новая цена" forState:UIControlStateNormal];
-            centerBtn.hidden = YES;
-            [rightBtn setTag:5];
-            [leftBtn setTag:6];
-        }
+    //init scrollView
+    scroller.pagingEnabled = YES;
+    scroller.showsHorizontalScrollIndicator = NO;
+    for(int i = 0; i < imagesArray.count; i++){
         
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i*scroller.frame.size.width, 0, scroller.frame.size.width, scroller.frame.size.height)];
+        imageView.image = [imagesArray objectAtIndex:i];
+        [scroller addSubview:imageView];
     }
-    
-    headLabel.text = mainDelegate.currentOrder.subject;
-    costLabel.text = [NSString stringWithFormat:@"%ld руб.", (long)mainDelegate.currentOrder.cost];
-    categoryLabel.text = [mainDelegate.science objectAtIndex: mainDelegate.currentOrder.category];
-    typeLabel.text = [mainDelegate.types objectAtIndex: mainDelegate.currentOrder.type];
-    beginLabel.text = mainDelegate.currentOrder.dateOrder;
-    endLabel.text = mainDelegate.currentOrder.date;
-    descriptionTextView.text = mainDelegate.currentOrder.description;
-    nickLabel.text = mainDelegate.currentOrder.customer.name;
+    scroller.contentSize = CGSizeMake(imagesArray.count*scroller.frame.size.width, scroller.frame.size.height);
+    pageControl.numberOfPages = imagesArray.count;
     
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-}
-
-- (IBAction)pressButton:(UIButton *)sender{
-    
-    NSString *url;
-    UIStoryboard *mainStoryboard;
-    AddOrderViewController *addOrderViewController;
-    TalkingViewController *talkingViewController;
-    ChooseExecutorViewController *chooseExecutorViewController;
-    NSDateFormatter *dateFormatter;
-    NSString *strDate;
-    UIAlertController * alertController;
-    
-    switch(sender.tag){
-        case 1://удалить заказ
-            
-            url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/remove/?id=%ld", (long)mainDelegate.currentOrder._id];
-            [self sendToServer:url];
-            break;
-            
-        case 2: //редактировать заказ
-            
-            mainDelegate.isEdit = YES;
-            mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-            addOrderViewController =  (AddOrderViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"addOrderViewController"];
-            [self presentViewController:addOrderViewController animated:YES completion:nil];
-            break;
-            
-        case 3: //чат
-            
-            mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-            talkingViewController =  (TalkingViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"talkingViewController"];
-            [self presentViewController:talkingViewController animated:YES completion:nil];
-            break;
-            
-        case 4: //завершить
-            
-            url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/change_status/?id=%ld&status=%ld", (long)mainDelegate.currentOrder._id, (long)mainDelegate.currentOrder.status];
-            [self sendToServer:url];
-            break;
-            
-        case 5: //взять
-            
-            dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-            strDate = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:[NSDate date]]];
-            url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/take/?id=%ld&executor=%ld&cost=%ld&date=%@", (long)mainDelegate.currentOrder._id, (long)mainDelegate.currentUser._id, (long)mainDelegate.currentOrder.cost, strDate];
-            [self sendToServer:url];
-            break;
-            
-        case 7: // выбрать исполнителя
-            NSLog(@"current order id = %d", mainDelegate.currentOrder._id);
-            mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-            chooseExecutorViewController =  (ChooseExecutorViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"chooseExecutorViewController"];
-            [self presentViewController:chooseExecutorViewController animated:YES completion:nil];
-            break;
-            
-        case 6: //предложить свою цену
-            
-            alertController = [UIAlertController alertControllerWithTitle: @""
-                                                                  message: @"Введите новую цену"
-                                                           preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                textField.placeholder = @"цена, руб.";
-                textField.textColor = [UIColor blackColor];
-                textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-                textField.borderStyle = UITextBorderStyleRoundedRect;
-            }];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                
-                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-                NSString *strDate = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:[NSDate date]]];
-                NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/take/?id=%ld&executor=%ld&cost=%ld&date=%@", (long)mainDelegate.currentOrder._id, (long)mainDelegate.currentUser._id, (long)alertController.textFields[0].text, strDate];
-                [self sendToServer:url];
-                
-            }]];
-            [self presentViewController:alertController animated:YES completion:nil];
-            break;
-            
-    }
-    
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
@@ -170,7 +72,6 @@
     NSDictionary *responseDic = [NSJSONSerialization JSONObjectWithData:mainDelegate.jsonData options:NSJSONReadingMutableContainers error:nil];
     
     NSInteger code = [[responseDic objectForKey:@"code"] integerValue];
-    NSLog(@"code = %d", code);
     UIStoryboard *mainStoryboard;
     MainViewController *mainViewController;
     
@@ -192,22 +93,6 @@
             mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"tabBarController"];
             [self presentViewController:mainViewController animated:YES completion:nil];
             break;
-        case 106: // успешно получен профиль пользователя
-            if ([NSJSONSerialization isValidJSONObject:responseDic])
-            {
-                NSDictionary *dict = [responseDic objectForKey:@"response"];
-                Person *person = [[Person alloc] init];
-                person._id = [[dict objectForKey:@"id"] integerValue];
-                person.email = [dict objectForKey:@"email"];
-                person.phone = [dict objectForKey:@"phone"];
-                person.name = [dict objectForKey:@"name"];
-                person.rating = [[dict objectForKey:@"rating"] integerValue];
-                person.photo = [dict objectForKey:@"photo"];
-                person.balance = [[dict objectForKey:@"balance"] integerValue];
-                person.password = [dict objectForKey:@"password"];
-                mainDelegate.currentOrder.customer = person;
-            }
-            break;
     }
     
     
@@ -216,6 +101,222 @@
 -(void)sendToServer:(NSString *)url{
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    pageControl.currentPage = scrollView.contentOffset.x/scrollView.frame.size.width;
+    
+}
+
+-(IBAction)showBottomMenu:(id)sender{
+    
+    UIActionSheet *actionSheet;
+    
+    if (mainDelegate.currentOrder.customer._id == mainDelegate.currentUser._id){
+        if (mainDelegate.currentOrder.status > 0){
+            actionSheet = [[UIActionSheet alloc] initWithTitle:@"Botan 1.0"
+                                                                     delegate:self
+                                                            cancelButtonTitle:@"Отмена"
+                                                       destructiveButtonTitle:nil
+                                                            otherButtonTitles:@"Чат", @"Редактировать", @"Удалить", nil];
+            currentStatus = 1;
+        }
+        else{
+            actionSheet = [[UIActionSheet alloc] initWithTitle:@"Botan 1.0"
+                                                                     delegate:self
+                                                            cancelButtonTitle:@"Отмена"
+                                                       destructiveButtonTitle:nil
+                                                            otherButtonTitles:@"Выбрать исполнителя", @"Редактировать", @"Удалить", nil];
+            currentStatus = 2;
+        }
+        
+    }
+    else{
+        if (mainDelegate.currentOrder.performer._id == mainDelegate.currentUser._id){
+            actionSheet = [[UIActionSheet alloc] initWithTitle:@"Botan 1.0"
+                                                                     delegate:self
+                                                            cancelButtonTitle:@"Отмена"
+                                                       destructiveButtonTitle:nil
+                                                            otherButtonTitles:@"Чат", @"Завершить", @"Отказаться", nil];
+            currentStatus = 3;
+        }
+        else{
+            actionSheet = [[UIActionSheet alloc] initWithTitle:@"Botan 1.0"
+                                                                     delegate:self
+                                                            cancelButtonTitle:@"Отмена"
+                                                       destructiveButtonTitle:nil
+                                                            otherButtonTitles:@"Взять заказ", @"Дать свою цену", nil];
+            currentStatus = 4;
+        }
+    }
+    
+    
+    
+    
+    
+    SEL selector = NSSelectorFromString(@"_alertController");
+    if ([actionSheet respondsToSelector:selector])
+    {
+        UIAlertController *alertController = [actionSheet valueForKey:@"_alertController"];
+        if ([alertController isKindOfClass:[UIAlertController class]])
+        {
+            alertController.view.tintColor = [UIColor colorWithRed:56.0f/255.0f green:188.0f/255.0f blue:156.0f/255.0f alpha:1.0f];
+        }
+    }
+    [actionSheet showInView:self.view];
+    
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    switch (buttonIndex) {
+        case 0:
+            
+            break;
+            
+        default:
+            break;
+    }
+    
+}
+
+-(void)status1:(NSInteger)buttonIndex{
+    
+    switch (buttonIndex) {
+        case 0:
+            [self goToChat];
+            break;
+        case 1:
+            [self editOrder];
+            break;
+        default:
+            [self deleteOrder];
+            break;
+    }
+    
+}
+
+-(void)status2:(NSInteger)buttonIndex{
+    
+    switch (buttonIndex) {
+        case 0:
+            [self choosePerformer];
+            break;
+        case 1:
+            [self editOrder];
+            break;
+        default:
+            [self deleteOrder];
+            break;
+    }
+    
+}
+
+-(void)status3:(NSInteger)buttonIndex{
+    
+    switch (buttonIndex) {
+        case 0:
+            [self goToChat];
+            break;
+        case 1:
+            [self finishOrder];
+            break;
+        default:
+            [self decline];
+            break;
+    }
+    
+}
+
+-(void)status4:(NSInteger)buttonIndex{
+    
+    switch (buttonIndex) {
+        case 0:
+            [self takeOrder];
+            break;
+        default:
+            [self offerNewCost];
+            break;
+    }
+    
+}
+
+-(void)deleteOrder{
+    
+    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/remove/?id=%ld", (long)mainDelegate.currentOrder._id];
+    [self sendToServer:url];
+    
+}
+
+-(void)editOrder{
+    
+    mainDelegate.isEdit = YES;
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    AddOrderViewController *addOrderViewController =  (AddOrderViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"addOrderViewController"];
+    [self presentViewController:addOrderViewController animated:YES completion:nil];
+    
+}
+
+-(void)goToChat{
+    
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    TalkingViewController *talkingViewController =  (TalkingViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"talkingViewController"];
+    [self presentViewController:talkingViewController animated:YES completion:nil];
+    
+}
+
+-(void)finishOrder{
+    
+    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/change_status/?id=%ld&status=%ld", (long)mainDelegate.currentOrder._id, (long)mainDelegate.currentOrder.status];
+    [self sendToServer:url];
+    
+}
+
+-(void)takeOrder{
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *strDate = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:[NSDate date]]];
+    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/take/?id=%ld&executor=%ld&cost=%ld&date=%@", (long)mainDelegate.currentOrder._id, (long)mainDelegate.currentUser._id, (long)mainDelegate.currentOrder.cost, strDate];
+    [self sendToServer:url];
+    
+}
+
+-(void)choosePerformer{
+    
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    ChooseExecutorViewController *chooseExecutorViewController =  (ChooseExecutorViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"chooseExecutorViewController"];
+    [self presentViewController:chooseExecutorViewController animated:YES completion:nil];
+    
+}
+
+-(void)offerNewCost{
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @""
+                                                          message: @"Введите новую цену"
+                                                   preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"цена, ₽";
+        textField.textColor = [UIColor blackColor];
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textField.borderStyle = UITextBorderStyleRoundedRect;
+    }];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *strDate = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:[NSDate date]]];
+        NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/take/?id=%ld&executor=%ld&cost=%ld&date=%@", (long)mainDelegate.currentOrder._id, (long)mainDelegate.currentUser._id, (long)alertController.textFields[0].text, strDate];
+        [self sendToServer:url];
+        
+    }]];
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+}
+
+-(void)decline{
+    
 }
 
 

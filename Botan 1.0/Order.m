@@ -9,31 +9,31 @@
 #import "Order.h"
 
 @implementation Order
-@synthesize category, foto, description, cost, date, customer, performer, dateOrder, type, subject, _id, status;
+@synthesize science, foto, description, cost, beginDate, customer, performer, endDate, type, subject, _id, status;
 
 -(id)initWithData:(NSInteger)i
-      theCategory:(NSInteger)c
+      theScience:(NSInteger)c
           theFoto:(NSMutableArray *)f
    theDiscription:(NSString *)d
           theCost:(NSInteger)cs
-          theDate:(NSString *)dt
+     theBeginDate:(NSString *)bd
       theCustomer:(Person *)cus
      thePerformer:(Person *)p
-     theDateOrder:(NSString *)dor
+     theEndDate:(NSString *)ed
           theType:(NSInteger)t
        theSubject:(NSString *)s
         theStatus:(NSInteger)stat{
     
     if (self = [super init]){
         [self set_id:i];
-        [self setCategory:c];
+        [self setScience:c];
         [self setFoto:f];
         [self setDescription:d];
         [self setCost:cs];
-        [self setDate:dt];
+        [self setBeginDate:bd];
         [self setCustomer:cus];
         [self setPerformer:p];
-        [self setDateOrder:dor];
+        [self setEndDate:ed];
         [self setType:t];
         [self setSubject:s];
         [self setStatus:stat];

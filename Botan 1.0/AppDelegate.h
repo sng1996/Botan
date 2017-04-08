@@ -26,6 +26,7 @@
     NSMutableArray *currentFilterArray;
     NSInteger currentFilterObject;
     Filter *filter;
+    Filter *lastFilter;
     SRWebSocket *webSocket;
     NSInteger category; //AddOrderViewController
     NSInteger type; //AddOrderViewController
@@ -47,6 +48,7 @@
 @property (strong, nonatomic) NSMutableArray *currentFilterArray;
 @property NSInteger currentFilterObject;
 @property (strong, nonatomic) Filter *filter;
+@property (strong, nonatomic) Filter *lastFilter;
 @property NSInteger category;
 @property NSInteger type;
 @property (strong, nonatomic) NSString *date;

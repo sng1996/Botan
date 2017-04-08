@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Filter : NSObject{
+@interface Filter : NSObject <NSCopying> {
     NSInteger science;
     NSInteger type;
     NSInteger sort;
@@ -30,5 +30,7 @@
    theSortSubject:(NSInteger)ss
        theMinCost:(NSInteger)min
        theMaxCost:(NSInteger)max;
+
+-(id)copyWithZone:(NSZone *)zone;
 
 @end

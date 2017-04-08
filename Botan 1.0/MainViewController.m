@@ -49,8 +49,8 @@
     Order *order = [arrForTable objectAtIndex:row];
     cell.typeLabel.text = [NSString stringWithFormat:@"%@", [mainDelegate.types objectAtIndex:order.type]];
     cell.subjectLabel.text = order.subject;
-    cell.endDateLabel.text = order.date;
-    cell.beginDateLabel.text = order.dateOrder;
+    cell.endDateLabel.text = order.endDate;
+    cell.beginDateLabel.text = order.beginDate;
     cell.costLabel.text = [NSString stringWithFormat:@"%ld", (long)order.cost];
     [cell setBackgroundColor:[UIColor whiteColor]];
     
@@ -66,23 +66,13 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    
-    /*if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }*/
-    
-    
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    /*mainDelegate.currentOrder = [arrForTable objectAtIndex:(NSInteger)indexPath.row];
+    mainDelegate.currentOrder = [arrForTable objectAtIndex:(NSInteger)indexPath.row];
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
     GetOrderViewController *getOrderViewController =  (GetOrderViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"getOrderViewController"];
-    [self presentViewController:getOrderViewController animated:YES completion:nil];*/
+    [self presentViewController:getOrderViewController animated:YES completion:nil];
     
 }
 
@@ -99,8 +89,8 @@
     Order *order = [[Order alloc] init];
     order.subject = @"Аналитическая геометрия";
     order.type = 0;
-    order.date = @"Завтра, 19:00";
-    order.dateOrder = @"03.01";
+    order.endDate = @"Завтра, 19:00";
+    order.beginDate = @"03.01";
     order.cost = 1500;
     [arrForTable addObject:order];
 }
@@ -125,15 +115,15 @@
             order.performer = [[Person alloc] init];
             order._id = [[obj objectForKey:@"id"] integerValue];
             NSLog(@"order._id = %ld", (long)order._id);
-            order.category = [[obj objectForKey:@"category"] integerValue];
+            order.science = [[obj objectForKey:@"category"] integerValue];
             order.foto = NULL;
             order.description = [obj objectForKey:@"description"];
             order.cost = [[obj objectForKey:@"cost"] integerValue];
-            order.date = [obj objectForKey:@"end_date"];
+            order.endDate = [obj objectForKey:@"end_date"];
             order.customer._id = [[obj objectForKey:@"client"] integerValue];
             NSLog(@"order.customer._id = %ld", (long)order.customer._id);
             order.performer._id = [[obj objectForKey:@"executor"] integerValue];
-            order.dateOrder = [obj objectForKey:@"create_date"];
+            order.beginDate = [obj objectForKey:@"create_date"];
             order.type = [[obj objectForKey:@"type"] integerValue];
             order.subject = [obj objectForKey:@"subject"];
             [mainDelegate.orders addObject:order];
@@ -191,4 +181,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+
+-(IBAction)goToFilter:(UIButton *)sender{
+    
+    mainDelegate.filter = [mainDelegate.lastFilter copy];
+    
+}
+
 @end

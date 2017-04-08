@@ -15,7 +15,7 @@
 @end
 
 @implementation AppDelegate
-@synthesize orders, arrOfResult, science, types, category, type, date, jsonData, arrOfPictures, imageArray, currentUser, currentOrder, isEdit, viewWidth, currentFilterArray, currentFilterObject, filter;
+@synthesize orders, arrOfResult, science, types, category, type, date, jsonData, arrOfPictures, imageArray, currentUser, currentOrder, isEdit, viewWidth, currentFilterArray, currentFilterObject, filter, lastFilter;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -27,10 +27,9 @@
     self.types = [[NSMutableArray alloc] initWithObjects:@"Все типы", @"Домашняя работа", @"Контрольная работа", @"Курсовой проект", nil];
     self.currentUser = [[Person alloc] init];
     self.filter = [[Filter alloc] init];
-    self.filter.science = 0;
-    self.filter.type = 0;
-    self.filter.sort = 0;
+    self.lastFilter = [[Filter alloc] init];
     self.isEdit = NO;
+    self.currentOrder = [[Order alloc] init];
     //[self aMethod];
     
     return YES;

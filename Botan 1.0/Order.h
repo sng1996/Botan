@@ -11,41 +11,41 @@
 
 @interface Order : NSObject{
     NSInteger _id;
-    NSInteger category;
+    NSInteger science;
     NSMutableArray *foto;
     NSString *description;
     NSInteger cost;
-    NSString *date;
+    NSString *beginDate;
     Person *customer;
     Person *performer;
-    NSString *dateOrder;
+    NSString *endDate;
     NSInteger type;
     NSString *subject;
     NSInteger status;
 }
 
 @property NSInteger _id;
-@property NSInteger category;
+@property NSInteger science;
 @property (nonatomic, strong) NSMutableArray *foto;
 @property (nonatomic, strong) NSString *description;
 @property NSInteger cost;
-@property (nonatomic, strong) NSString *date;
+@property (nonatomic, strong) NSString *beginDate;
 @property (nonatomic, strong) Person *customer;
 @property (nonatomic, strong) Person *performer;
-@property (nonatomic, strong) NSString *dateOrder;
+@property (nonatomic, strong) NSString *endDate;
 @property NSInteger type;
 @property (nonatomic, strong) NSString *subject;
 @property NSInteger status;
 
 -(id)initWithData: (NSInteger)i
-         theCategory: (NSInteger)c
+         theScience: (NSInteger)c
          theFoto:(NSMutableArray *)f
          theDescription:(NSString *)d
          theCost:(NSInteger)cs
-         theDate:(NSString *)dt
+         theBeginDate:(NSString *)bd
          theCustomer:(Person *)cus
          thePerformer:(Person *)p
-         theDateOrder:(NSString *)dor
+         theEndDate:(NSString *)ed
          theType:(NSInteger)t
          theSubject:(NSString *)s
          theStatus:(NSInteger)stat;

@@ -10,6 +10,7 @@
 		2A1253DB1E8E590E00B37FC7 /* pocket.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2A1253DA1E8E590E00B37FC7 /* pocket.tiff */; };
 		2A1729371E5DBD6500806286 /* JSON in Resources */ = {isa = PBXBuildFile; fileRef = 2A1729361E5DBD6500806286 /* JSON */; };
 		2A17293B1E5E2AA300806286 /* avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A17293A1E5E2AA300806286 /* avatar.png */; };
+		2A1FC57F1E98C3080067479D /* glass.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A1FC57E1E98C3080067479D /* glass.jpg */; };
 		2A322C851E9694130002B900 /* ChooseFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A322C841E9694130002B900 /* ChooseFilterViewController.m */; };
 		2A322C881E9699460002B900 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A322C871E9699450002B900 /* Filter.m */; };
 		2A4608B01E7059CC00FA620D /* elf.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A4608AF1E7059CC00FA620D /* elf.jpg */; };
@@ -104,6 +105,7 @@
 		2A1253DA1E8E590E00B37FC7 /* pocket.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = pocket.tiff; path = ../../../Design/pocket.tiff; sourceTree = "<group>"; };
 		2A1729361E5DBD6500806286 /* JSON */ = {isa = PBXFileReference; lastKnownFileType = folder; path = JSON; sourceTree = "<group>"; };
 		2A17293A1E5E2AA300806286 /* avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar.png; sourceTree = "<group>"; };
+		2A1FC57E1E98C3080067479D /* glass.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = glass.jpg; path = ../../../glass.jpg; sourceTree = "<group>"; };
 		2A322C831E9694130002B900 /* ChooseFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseFilterViewController.h; sourceTree = "<group>"; };
 		2A322C841E9694130002B900 /* ChooseFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseFilterViewController.m; sourceTree = "<group>"; };
 		2A322C861E9699450002B900 /* Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filter.h; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 				2A9E856E1E67974400D7BF89 /* main.m */,
 				2AD73AC11E7D3A9E00E5DB66 /* info.txt */,
 				2ADE3F511E5B98FB0054288D /* Botan 1.0.entitlements */,
+				2A1FC57E1E98C3080067479D /* glass.jpg */,
 				2A17293A1E5E2AA300806286 /* avatar.png */,
 				2A4608AF1E7059CC00FA620D /* elf.jpg */,
 				2A51DDDA1E7099CC00E346D4 /* noimage.png */,
@@ -546,6 +549,7 @@
 			files = (
 				2A78ED701E8C483D00A0A871 /* beginDate.tiff in Resources */,
 				2AA0325A1E5489FD00AD7067 /* LaunchScreen.storyboard in Resources */,
+				2A1FC57F1E98C3080067479D /* glass.jpg in Resources */,
 				2AEE7CDA1E63669200A41397 /* Foundation in Resources */,
 				2A17293B1E5E2AA300806286 /* avatar.png in Resources */,
 				2AA032571E5489FD00AD7067 /* Assets.xcassets in Resources */,

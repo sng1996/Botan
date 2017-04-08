@@ -72,20 +72,24 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSInteger row = indexPath.row;
     
-    if (mainDelegate.currentFilterObject == 0){
-        mainDelegate.filter.science = row;
-    }
-    else{
-        mainDelegate.filter.type = row;
+    switch (mainDelegate.currentFilterObject) {
+        case 0:
+            mainDelegate.filter.science = row;
+            break;
+        case 1:
+            mainDelegate.filter.type = row;
+        case 2:
+            mainDelegate.currentOrder.science = row;
+            break;
+        default:
+            mainDelegate.currentOrder.type = row;
+            break;
     }
     
-     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-     FilterViewController *filterViewController =  (FilterViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"filterViewController"];
-     [self presentViewController:filterViewController animated:YES completion:nil];
+    [self performSegueWithIdentifier:@"unwindSegue" sender:self];
     
 }
 

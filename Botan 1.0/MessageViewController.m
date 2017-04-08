@@ -57,7 +57,7 @@
     //cell.descriptLabel.textColor = [UIColor blackColor];
     
     Order *order = [arrForTable objectAtIndex:row];
-    cell.typeLabel.text = [NSString stringWithFormat:@"#%@ #%@", [mainDelegate.types objectAtIndex:order.type], [mainDelegate.types objectAtIndex:order.category]];
+    cell.typeLabel.text = [NSString stringWithFormat:@"#%@ #%@", [mainDelegate.types objectAtIndex:order.type], [mainDelegate.types objectAtIndex:order.science]];
     cell.subjectLabel.text = order.subject;
     //cell.descriptLabel.text = order.description;
     //cell.dateLabel.text = order.date;

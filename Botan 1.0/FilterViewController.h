@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
-@interface FilterViewController : UIViewController{
+@interface FilterViewController : UIViewController <UITextFieldDelegate>{
     
     AppDelegate *mainDelegate;
     IBOutlet UIButton *cancelBtn;
@@ -26,7 +26,10 @@
     IBOutlet UIImageView *dateAddImg;
     IBOutlet UIImageView *costImg;
     IBOutlet UIImageView *timeImg;
+    IBOutlet UIScrollView *scrollView;
+    IBOutlet UISwitch *switchBtn;
     
+    UIView *aboveKeyboardView;
     NSMutableArray *arrOfImg;
     
 }
@@ -45,6 +48,8 @@
 @property (nonatomic, strong) IBOutlet UIImageView *dateAddImg;
 @property (nonatomic, strong) IBOutlet UIImageView *costImg;
 @property (nonatomic, strong) IBOutlet UIImageView *timeImg;
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, strong) IBOutlet UISwitch *switchBtn;
 
 
 @end
