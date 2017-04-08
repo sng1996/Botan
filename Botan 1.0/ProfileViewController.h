@@ -8,19 +8,40 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "ReviewCell.h"
+#import "SiteCell.h"
+#import "Review.h"
 
-@interface ProfileViewController : UIViewController{
+@interface ProfileViewController : UIViewController <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>{
     
     AppDelegate *mainDelegate;
-    IBOutlet UILabel *ordersDoneLbl;
-    IBOutlet UILabel *ratingLbl;
+    IBOutlet UILabel *nickLbl;
+    IBOutlet UIButton *balanceBtn;
     IBOutlet UILabel *balanceLbl;
-    IBOutlet UILabel *ordersCreateLbl;
+    IBOutlet UIButton *currentWorkBtn;
+    IBOutlet UIButton *currentOrdersBtn;
+    IBOutlet UIButton *archiveBtn;
+    IBOutlet UIButton *reviewsBtn;
+    IBOutlet UIScrollView *scroller;
+    IBOutlet UIView *pageLineView;
+    
+    NSMutableArray *buttonsArr;
+    NSMutableArray *tablesArr;
+    NSMutableArray *dataArr;
+    
 }
 
-@property (nonatomic, strong) IBOutlet UILabel *ordersDoneLbl;
-@property (nonatomic, strong) IBOutlet UILabel *ratingLbl;
+@property (nonatomic, strong) IBOutlet UILabel *nickLbl;
+@property (nonatomic, strong) IBOutlet UIButton *balanceBtn;
+@property (nonatomic, strong) IBOutlet UIButton *currentWorkBtn;
+@property (nonatomic, strong) IBOutlet UIButton *currentOrdersBtn;
+@property (nonatomic, strong) IBOutlet UIButton *archiveBtn;
+@property (nonatomic, strong) IBOutlet UIButton *reviewsBtn;
+@property (nonatomic, strong) IBOutlet UIScrollView *scroller;
 @property (nonatomic, strong) IBOutlet UILabel *balanceLbl;
-@property (nonatomic, strong) IBOutlet UILabel *ordersCreateLbl;
+@property (nonatomic, strong) IBOutlet UIView *pageLineView;
+
+
+
 
 @end

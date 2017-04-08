@@ -24,6 +24,8 @@
 		2A5F15ED1E73242E004F9984 /* GalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F15EC1E73242E004F9984 /* GalleryViewController.m */; };
 		2A5F15F01E742589004F9984 /* CabinetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F15EF1E742589004F9984 /* CabinetViewController.m */; };
 		2A5F15F31E7425A8004F9984 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F15F21E7425A8004F9984 /* ProfileViewController.m */; };
+		2A6A5D7F1E995576005F2C73 /* ReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A6A5D7E1E995576005F2C73 /* ReviewCell.m */; };
+		2A6A5D821E9960C6005F2C73 /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A6A5D811E9960C6005F2C73 /* Review.m */; };
 		2A78ED6D1E8BC5F200A0A871 /* Close.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2A78ED6C1E8BC5F200A0A871 /* Close.tiff */; };
 		2A78ED701E8C483D00A0A871 /* beginDate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2A78ED6E1E8C483D00A0A871 /* beginDate.tiff */; };
 		2A78ED711E8C483D00A0A871 /* endDate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2A78ED6F1E8C483D00A0A871 /* endDate.tiff */; };
@@ -124,6 +126,10 @@
 		2A5F15EF1E742589004F9984 /* CabinetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CabinetViewController.m; sourceTree = "<group>"; };
 		2A5F15F11E7425A8004F9984 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		2A5F15F21E7425A8004F9984 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		2A6A5D7D1E995576005F2C73 /* ReviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewCell.h; sourceTree = "<group>"; };
+		2A6A5D7E1E995576005F2C73 /* ReviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewCell.m; sourceTree = "<group>"; };
+		2A6A5D801E9960C6005F2C73 /* Review.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Review.h; sourceTree = "<group>"; };
+		2A6A5D811E9960C6005F2C73 /* Review.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Review.m; sourceTree = "<group>"; };
 		2A78ED6C1E8BC5F200A0A871 /* Close.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Close.tiff; path = ../../../Design/Close.tiff; sourceTree = "<group>"; };
 		2A78ED6E1E8C483D00A0A871 /* beginDate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = beginDate.tiff; path = ../../../Design/beginDate.tiff; sourceTree = "<group>"; };
 		2A78ED6F1E8C483D00A0A871 /* endDate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = endDate.tiff; path = ../../../Design/endDate.tiff; sourceTree = "<group>"; };
@@ -277,6 +283,10 @@
 				2A9E856A1E67834300D7BF89 /* CRVStompClient.m */,
 				2A9E84431E6773C000D7BF89 /* AddOrderViewController.h */,
 				2A9E84441E6773C000D7BF89 /* AddOrderViewController.m */,
+				2A6A5D7D1E995576005F2C73 /* ReviewCell.h */,
+				2A6A5D7E1E995576005F2C73 /* ReviewCell.m */,
+				2A6A5D801E9960C6005F2C73 /* Review.h */,
+				2A6A5D811E9960C6005F2C73 /* Review.m */,
 				2A9E84451E6773C000D7BF89 /* AppDelegate.h */,
 				2A9E84461E6773C000D7BF89 /* AppDelegate.m */,
 				2A9E84471E6773C000D7BF89 /* CameraViewController.h */,
@@ -754,6 +764,7 @@
 				2A322C851E9694130002B900 /* ChooseFilterViewController.m in Sources */,
 				2AD73AC51E7D5ECB00E5DB66 /* ChooseExecutorViewController.m in Sources */,
 				2A5F15ED1E73242E004F9984 /* GalleryViewController.m in Sources */,
+				2A6A5D821E9960C6005F2C73 /* Review.m in Sources */,
 				2A9E84941E6773C000D7BF89 /* GetOrderViewController.m in Sources */,
 				2A9E849A1E6773C000D7BF89 /* Person.m in Sources */,
 				2A9778281E71A63F007CAA2E /* ImageButton.m in Sources */,
@@ -772,6 +783,7 @@
 				2A9E84991E6773C000D7BF89 /* Order.m in Sources */,
 				2AD0874F1E6C758A000B3FEB /* RegisterViewController.m in Sources */,
 				2A9E848B1E6773C000D7BF89 /* AddOrderViewController.m in Sources */,
+				2A6A5D7F1E995576005F2C73 /* ReviewCell.m in Sources */,
 				2A5F15F01E742589004F9984 /* CabinetViewController.m in Sources */,
 				2AB668D51E7741BB0072C432 /* MessageViewController.m in Sources */,
 				2A9E856B1E67834300D7BF89 /* CRVStompClient.m in Sources */,
