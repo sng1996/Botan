@@ -19,6 +19,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     self.orders = [[NSMutableArray alloc] init];
     self.arrOfPictures = [[NSMutableArray alloc] init];
     self.imageArray = [[NSMutableArray alloc] init];

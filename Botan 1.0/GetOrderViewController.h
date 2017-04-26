@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "PerformerViewController.h"
 
 @interface GetOrderViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>{
     

@@ -7,8 +7,6 @@
 //
 
 #import "EnterViewController.h"
-#import "MainViewController.h"
-#import "JSON/SBJson.h"
 
 @interface EnterViewController ()
 
@@ -32,8 +30,11 @@
 
 - (IBAction)enter:(UIButton *)sender{
     
-    NSString *login = loginTextField.text;
-    NSString *password = passwordTextField.text;
+    NSString *login = sender.currentTitle;
+    NSString *password = @"";
+    
+    /*NSString *login = loginTextField.text;
+    NSString *password = passwordTextField.text;*/
     
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
                           login, @"email",
@@ -56,9 +57,6 @@
         }else{
             NSLog(@"ERROR");
         }
-    }
-    else{
-        NSLog(@"ERROR!!!!!!!!!!!!!!!");
     }
     
 }
@@ -87,7 +85,7 @@
         mainDelegate.currentUser._id = [[responseDic objectForKey:@"id"] intValue];
         NSLog(@"currentUserId = %ld", (long)mainDelegate.currentUser._id);
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-        MainViewController *mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"tabBarController"];
+        MainViewController *mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"mainViewController"];
         [self presentViewController:mainViewController animated:YES completion:nil];
     }
         

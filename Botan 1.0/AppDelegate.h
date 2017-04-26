@@ -31,7 +31,7 @@
     NSInteger category; //AddOrderViewController
     NSInteger type; //AddOrderViewController
     NSString *date; //not nessasary
-    NSData *jsonData;
+    NSData *jsonData; //not nessasary
     NSMutableArray *arrOfPictures;
     NSMutableArray *imageArray; //for cameraViewController
     Person *currentUser;

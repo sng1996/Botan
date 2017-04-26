@@ -79,18 +79,18 @@
             
         case 101: // заказ успешно удален
             mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-            mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"tabBarController"];
+            mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"mainViewController"];
             [self presentViewController:mainViewController animated:YES completion:nil];
             break;
         case 102: // заказ успешно сменил статус
             mainDelegate.currentOrder.status = 2;
             mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-            mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"tabBarController"];
+            mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"mainViewController"];
             [self presentViewController:mainViewController animated:YES completion:nil];
             break;
         case 103: // готов выполнить заказ
             mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-            mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"tabBarController"];
+            mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"mainViewController"];
             [self presentViewController:mainViewController animated:YES completion:nil];
             break;
     }
@@ -170,12 +170,18 @@
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    switch (buttonIndex) {
-        case 0:
-            
+    switch (currentStatus) {
+        case 1:
+            [self status1: buttonIndex];
             break;
-            
+        case 2:
+            [self status2: buttonIndex];
+            break;
+        case 3:
+            [self status3: buttonIndex];
+            break;
         default:
+            [self status4: buttonIndex];
             break;
     }
     
@@ -286,8 +292,8 @@
 -(void)choosePerformer{
     
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    ChooseExecutorViewController *chooseExecutorViewController =  (ChooseExecutorViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"chooseExecutorViewController"];
-    [self presentViewController:chooseExecutorViewController animated:YES completion:nil];
+    PerformerViewController *performerViewController =  (PerformerViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"performerViewController"];
+    [self presentViewController:performerViewController animated:YES completion:nil];
     
 }
 
@@ -316,6 +322,14 @@
 }
 
 -(void)decline{
+    
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+}
+
+-(IBAction)unwindToThisViewController:(UIStoryboardSegue *)sender{
     
 }
 

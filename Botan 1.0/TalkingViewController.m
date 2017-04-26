@@ -13,11 +13,15 @@
 @end
 
 @implementation TalkingViewController
+@synthesize messageTxtView, mainView, scroller, messageView, order_id, right1, msgTextView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     [self aMethod];
+    
     mainDelegate = (AppDelegate *)[[ UIApplication sharedApplication] delegate];
     
     if (mainDelegate.currentUser._id == mainDelegate.currentOrder.customer._id){
@@ -26,35 +30,84 @@
         currentСompanionId = mainDelegate.currentOrder.customer._id;
     }
     
-    messageTxtView.autocorrectionType = UITextAutocorrectionTypeNo;
+    msgTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(40, 7, 240, 33)];
+    msgTextView.isScrollable = NO;
+    msgTextView.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
+    msgTextView.minNumberOfLines = 1;
+    msgTextView.maxNumberOfLines = 4;
+    // you can also set the maximum height in points with maxHeight
+    // textView.maxHeight = 200.0f;
+    msgTextView.returnKeyType = UIReturnKeyGo; //just as an example
+    msgTextView.font = [UIFont systemFontOfSize:15.0f];
+    msgTextView.delegate = self;
+    msgTextView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
+    msgTextView.backgroundColor = [UIColor whiteColor];
+    msgTextView.placeholder = @"Type to see the textView grow!";
+    msgTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    
+    [messageView addSubview:msgTextView];
+    
+     messageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    
+    
+    /*messageTxtView.autocorrectionType = UITextAutocorrectionTypeNo;
+    messageTxtView.textContainerInset = UIEdgeInsetsMake(5, 0, 5, 0);
+    scroller.contentSize = CGSizeMake(320, 464);
+    //messageTxtView.layer.cornerRadius = 5;
+    messageTxtView.scrollEnabled = NO;*/
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardFrameChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
-    scrollView.contentSize = CGSizeMake(320, 464);
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector: @selector(keyPressed:)
+                                                 name: UITextViewTextDidChangeNotification
+                                               object: nil];
+    
+    right1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+    
+    NSArray *actionButtonItemsRight = @[right1];
+    self.navigationItem.rightBarButtonItems = actionButtonItemsRight;
+    
+    UILabel *label = (UILabel *)[self.navigationController.navigationBar viewWithTag:1];
+    label.text = @"Serega";
+    
 }
+
+- (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
+{
+    float diff = (growingTextView.frame.size.height - height);
+    
+    CGRect r = messageView.frame;
+    r.size.height -= diff;
+    r.origin.y += diff;
+    messageView.frame = r;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-- (void)textViewDidBeginEditing:(UITextView *)textView{
+/*- (void)textViewDidBeginEditing:(UITextView *)textView{
     
-    CGPoint bottomOffset = CGPointMake(0, scrollView.contentSize.height - scrollView.bounds.size.height);
-    [scrollView setContentOffset:bottomOffset animated:YES];
+    CGPoint bottomOffset = CGPointMake(0, scroller.contentSize.height - scroller.bounds.size.height);
+    [scroller setContentOffset:bottomOffset animated:YES];
     
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
     
-}
+}*/
 
-- (void)textViewDidChange:(UITextView *)textView{
-    /*CGRect frame = textView.frame;
+
+/*- (void)textViewDidChange:(UITextView *)textView{
+    CGRect frame = textView.frame;
     frame.size.height = textView.contentSize.height;
     textView.frame=frame;
     frame = keyboardView.frame;
     frame.size.height = textView.contentSize.height + 10;
     keyboardView.frame = frame;
-    messageTxtView.inputAccessoryView = keyboardView;*/
-}
+    messageTxtView.inputAccessoryView = keyboardView;
+}*/
 
 - (IBAction)dismissKeyboard:(UIButton *)sender{
     
@@ -95,19 +148,19 @@
         CGRect frame = mainView.frame;
         frame.origin.y = mainView.frame.origin.y - keyboardSize;
         mainView.frame=frame;
-        frame = scrollView.frame;
-        frame.size.height = scrollView.frame.size.height - keyboardSize;
-        frame.origin.y = scrollView.frame.origin.y + keyboardSize;
-        scrollView.frame = frame;
+        frame = scroller.frame;
+        frame.size.height = scroller.frame.size.height - keyboardSize;
+        frame.origin.y = scroller.frame.origin.y + keyboardSize;
+        scroller.frame = frame;
     }
     else{
         CGRect frame = mainView.frame;
         frame.origin.y = mainView.frame.origin.y + keyboardSize;
         mainView.frame=frame;
-        frame = scrollView.frame;
-        frame.size.height = scrollView.frame.size.height + keyboardSize;
-        frame.origin.y = scrollView.frame.origin.y - keyboardSize;
-        scrollView.frame = frame;
+        frame = scroller.frame;
+        frame.size.height = scroller.frame.size.height + keyboardSize;
+        frame.origin.y = scroller.frame.origin.y - keyboardSize;
+        scroller.frame = frame;
     }
     
     [UIView commitAnimations];
@@ -168,7 +221,7 @@
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonDict options:kNilOptions error:&error];
     NSString *jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     [self sendMessage:jsonStr];
-    NSLog(jsonStr);
+
 }
 
 - (void)registerSession:(NSInteger)id{
@@ -190,11 +243,51 @@
     msgLbl.text = message;
     msgLbl.numberOfLines = 0;
     messageTxtView.text = @"";
-    msgLbl.frame = CGRectMake(170*isRight, scrollView.contentSize.height, 140, height + 40);
-    scrollView.contentSize = CGSizeMake(320, scrollView.contentSize.height + height + 60);
-    [scrollView addSubview:msgLbl];
-    CGPoint bottomOffset = CGPointMake(0, scrollView.contentSize.height - scrollView.bounds.size.height);
-    [scrollView setContentOffset:bottomOffset animated:YES];
+    msgLbl.frame = CGRectMake(170*isRight, scroller.contentSize.height, 140, height + 40);
+    scroller.contentSize = CGSizeMake(320, scroller.contentSize.height + height + 60);
+    [scroller addSubview:msgLbl];
+    CGPoint bottomOffset = CGPointMake(0, scroller.contentSize.height - scroller.bounds.size.height);
+    [scroller setContentOffset:bottomOffset animated:YES];
+}
+
+-(IBAction)keyPressed:(id)sender{
+    
+    /*CGSize newSize = [messageTxtView.text sizeWithFont:[UIFont fontWithName:@"HelveticaNeue" size:14] constrainedToSize:CGSizeMake(208.279f,9999) lineBreakMode:UILineBreakModeWordWrap];
+    NSInteger newSizeH = newSize.height;
+    NSLog(@"width = %f", newSize.width);
+    
+    
+    if (messageTxtView.hasText)
+    {
+        if (newSizeH <= 95)
+        {
+            messageTxtView.scrollEnabled = NO;
+            [messageTxtView scrollRectToVisible:CGRectMake(0,0,1,1) animated:NO];
+            CGRect messageBoxFrame = messageTxtView.frame;
+            messageBoxFrame.size.height = newSizeH + 13;
+            NSLog(@"size  = %ld", newSizeH);
+            messageTxtView.frame = messageBoxFrame;
+            
+            CGRect formFrame = messageView.frame;
+            formFrame.size.height = 30 + newSizeH;
+            formFrame.origin.y = 522 - (newSizeH - 16);
+            messageView.frame = formFrame;
+            
+            formFrame = add.frame;
+            formFrame.origin.y = newSizeH - 3;
+            add.frame = formFrame;
+            
+            formFrame = send.frame;
+            formFrame.origin.y = newSizeH - 3;
+            send.frame = formFrame;
+        }
+        if (newSizeH > 95)
+        {
+            messageTxtView.scrollEnabled = YES;
+        }
+    }*/
+    
+    
 }
 
 

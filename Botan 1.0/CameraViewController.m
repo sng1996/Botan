@@ -9,7 +9,6 @@
 #import "CameraViewController.h"
 #import "FilterViewController.h"
 #import <Photos/Photos.h>
-#import "ImageButton.h"
 
 static int count=0;
 
@@ -79,8 +78,8 @@ static int count=0;
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(8 + mainDelegate.imageArray.count*58, 5, 50, 50)];
             [button setBackgroundImage:image forState:UIControlStateNormal];
             [sView addSubview: button];
-            ImageButton *imageButton = [[ImageButton alloc] initWithData: image theButton: button];
-            [mainDelegate.imageArray addObject:imageButton];
+            //ImageButton *imageButton = [[ImageButton alloc] initWithData: image theButton: button];
+            //[mainDelegate.imageArray addObject:imageButton];
             
         }
     }];

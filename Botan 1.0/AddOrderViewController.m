@@ -7,11 +7,6 @@
 //
 
 #import "AddOrderViewController.h"
-#import "TabController.h"
-#import "Order.h"
-#import "JSON/SBJson.h"
-#import "ImageButton.h"
-#import "MainViewController.h"
 
 @interface AddOrderViewController ()
 
@@ -29,7 +24,6 @@
     mainDelegate = (AppDelegate *)[[ UIApplication sharedApplication] delegate];
     
     if (mainDelegate.isEdit){
-        mainDelegate.isEdit = NO;
         
         scienceLbl.text = [mainDelegate.science objectAtIndex:mainDelegate.currentOrder.science];
         typeLbl.text = [mainDelegate.types objectAtIndex:mainDelegate.currentOrder.type];
@@ -103,29 +97,40 @@
 
 -(IBAction)addOrder:(UIBarButtonItem *)sender{
     
-    [mainDelegate.orders addObject:mainDelegate.currentOrder];
+    
+    NSDate *date = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    NSString *strDate = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:date]];
+    mainDelegate.currentOrder.beginDate = strDate;
+    
+    mainDelegate.currentOrder.customer = mainDelegate.currentUser;
+    mainDelegate.currentOrder.status = 0;
+    
+    //[mainDelegate.orders addObject:mainDelegate.currentOrder];  ???
     
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
                           [NSNumber numberWithInteger: mainDelegate.currentOrder._id], @"id",
-                          [NSNumber numberWithInteger: order.cost], @"cost",
-                          order.endDate, @"date",
-                          order.subject, @"subject",
-                          [NSNumber numberWithInteger: order.type], @"type",
-                          [NSNumber numberWithInteger: order.science], @"category",
-                          order.description, @"description",
-                          [NSNumber numberWithInteger: order.status], @"status",
-                          [NSNumber numberWithInteger: order.customer._id], @"client", nil];
+                          [NSNumber numberWithInteger: mainDelegate.currentOrder.cost], @"cost",
+                          mainDelegate.currentOrder.endDate, @"end_date",
+                          mainDelegate.currentOrder.beginDate, @"create_date",
+                          mainDelegate.currentOrder.subject, @"subject",
+                          [NSNumber numberWithInteger: mainDelegate.currentOrder.type], @"type",
+                          [NSNumber numberWithInteger: mainDelegate.currentOrder.science], @"category",
+                          mainDelegate.currentOrder.description, @"description",
+                          [NSNumber numberWithInteger: mainDelegate.currentOrder.status], @"status",
+                          [NSNumber numberWithInteger: mainDelegate.currentOrder.customer._id], @"client", nil];
     
     NSString *url;
     
     if (mainDelegate.isEdit){
         url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/edit"];
+        mainDelegate.isEdit = NO;
     }else{
         url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/create"];
     }
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL
-                                                                        URLWithString:url]
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15.0];
     NSError *error;
     if ([NSJSONSerialization isValidJSONObject:dict]){
@@ -140,8 +145,6 @@
         }else{
             NSLog(@"ERROR");
         }
-    }else{
-        NSLog(@"ERROR!!!!!!!!!!!!!!!");
     }
 
 }
@@ -158,10 +161,6 @@
     
     NSString *result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     NSDictionary *responseDic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
-    if ([NSJSONSerialization isValidJSONObject:responseDic])
-    {
-        NSLog(@"code = %@", [responseDic objectForKey:@"code"]);
-    }
     
     NSInteger code = [[responseDic objectForKey:@"code"] intValue];
     UIAlertController *alert;
@@ -184,7 +183,7 @@
                                                    handler:^(UIAlertAction * action)
                              {
                                  UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-                                 MainViewController *mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"tabBarController"];
+                                 MainViewController *mainViewController =  (MainViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"mainViewController"];
                                  [self presentViewController:mainViewController animated:YES completion:nil];
                                  
                              }];
@@ -213,6 +212,20 @@
     [UIView setAnimationDuration:0.3f];
     mainScroller.contentOffset = (CGPoint){0,0};
     [UIView commitAnimations];
+    mainDelegate.currentOrder.description = textView.text;
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    
+    switch (textField.tag) {
+        case 0:
+            mainDelegate.currentOrder.subject = textField.text;
+            break;
+        default:
+            mainDelegate.currentOrder.cost = [textField.text integerValue];
+            break;
+    }
+    
 }
 
 
@@ -286,7 +299,6 @@
             CGRect formFrame = descriptionView.frame;
             NSInteger viewFormH = formFrame.size.height;
             formFrame.size.height = 30 + newSizeH;
-            //formFrame.origin.y = 199 - (newSizeH - 18);
             descriptionView.frame = formFrame;
         }
         if (newSizeH > 200)

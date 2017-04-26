@@ -83,20 +83,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     mainDelegate = (AppDelegate *)[[ UIApplication sharedApplication] delegate];
     mainDelegate.viewWidth = self.view.frame.size.width;
     arrForTable = [[NSMutableArray alloc] init];
-    Order *order = [[Order alloc] init];
-    order.subject = @"Аналитическая геометрия";
-    order.type = 0;
-    order.endDate = @"Завтра, 19:00";
-    order.beginDate = @"03.01";
-    order.cost = 1500;
-    [arrForTable addObject:order];
+    
+    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/get_all_orders"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    mainDelegate.jsonData = data;
+    jsonData = data;
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
@@ -104,8 +102,9 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    
     [mainDelegate.orders removeAllObjects];
-    NSDictionary *responseDic = [NSJSONSerialization JSONObjectWithData:mainDelegate.jsonData options:NSJSONReadingMutableContainers error:nil];
+    NSDictionary *responseDic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
     if ([NSJSONSerialization isValidJSONObject:responseDic])
     {
         NSArray *array = [responseDic objectForKey:@"response"];
@@ -114,14 +113,12 @@
             order.customer = [[Person alloc] init];
             order.performer = [[Person alloc] init];
             order._id = [[obj objectForKey:@"id"] integerValue];
-            NSLog(@"order._id = %ld", (long)order._id);
             order.science = [[obj objectForKey:@"category"] integerValue];
             order.foto = NULL;
             order.description = [obj objectForKey:@"description"];
             order.cost = [[obj objectForKey:@"cost"] integerValue];
             order.endDate = [obj objectForKey:@"end_date"];
             order.customer._id = [[obj objectForKey:@"client"] integerValue];
-            NSLog(@"order.customer._id = %ld", (long)order.customer._id);
             order.performer._id = [[obj objectForKey:@"executor"] integerValue];
             order.beginDate = [obj objectForKey:@"create_date"];
             order.type = [[obj objectForKey:@"type"] integerValue];
@@ -133,6 +130,7 @@
     arrForTable = [mainDelegate.orders mutableCopy];
     [mainTableView reloadData];
     
+    
 }
 
 -(IBAction)deleteFilter:(UIButton *)sender{
@@ -142,40 +140,45 @@
 
 
 -(void)viewDidAppear:(BOOL)animated{
-    /*NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/get_all_orders"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
     arrForTable = [mainDelegate.orders mutableCopy];
-    if (![[mainDelegate.arrOfResult objectAtIndex:1] isEqualToString:@""]){
+    
+    if (mainDelegate.lastFilter.type != 0){
         for (int i = 0; i < [arrForTable count]; i++){
-            if(!(((Order *)[arrForTable objectAtIndex:i]).type == [[mainDelegate.arrOfResult objectAtIndex:1] integerValue])){
+            if(!(((Order *)[arrForTable objectAtIndex:i]).type == mainDelegate.lastFilter.type)){
                 [arrForTable removeObjectAtIndex:i];
             }
         }
     }
-    if (![[mainDelegate.arrOfResult objectAtIndex:2] isEqualToString:@""]){
+    if (mainDelegate.lastFilter.science != 0){
         for (int i = 0; i < [arrForTable count]; i++){
-            if(!(((Order *)[arrForTable objectAtIndex:i]).category == [[mainDelegate.arrOfResult objectAtIndex:2] integerValue])){
+            if(!(((Order *)[arrForTable objectAtIndex:i]).science == mainDelegate.lastFilter.science)){
                 [arrForTable removeObjectAtIndex:i];
             }
         }
     }
-    if ([[mainDelegate.arrOfResult objectAtIndex:0] isEqualToString:@"Сначала дешевые"]){
-        arrForTable = [arrForTable sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"cost" ascending: true]]];
+    if (mainDelegate.lastFilter.maxCost != 0){
+        for (int i = 0; i < [arrForTable count]; i++){
+            if((((Order *)[arrForTable objectAtIndex:i]).cost < mainDelegate.lastFilter.minCost) || (((Order *)[arrForTable objectAtIndex:i]).cost > mainDelegate.lastFilter.maxCost)){
+                [arrForTable removeObjectAtIndex:i];
+            }
+        }
     }
-    if ([[mainDelegate.arrOfResult objectAtIndex:0] isEqualToString:@"Сначала дорогие"]){
-        arrForTable = [arrForTable sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"cost" ascending: false]]];
+    switch (mainDelegate.lastFilter.sortSubject) {
+        case 0:
+            arrForTable = (NSMutableArray *)[arrForTable sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"beginDate" ascending: !mainDelegate.lastFilter.sort]]];
+            break;
+        case 1:
+            arrForTable = (NSMutableArray *)[arrForTable sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"cost" ascending: !mainDelegate.lastFilter.sort]]];
+            break;
+        default:
+            arrForTable = (NSMutableArray *)[arrForTable sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending: !mainDelegate.lastFilter.sort]]];
+            break;
     }
-    if ([[mainDelegate.arrOfResult objectAtIndex:0] isEqualToString:@"Сначала старые"]){
-        arrForTable = [arrForTable sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dateOrder" ascending: true]]];
-    }
-    if ([[mainDelegate.arrOfResult objectAtIndex:0] isEqualToString:@"Сначала новые"]){
-        arrForTable = [arrForTable sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dateOrder" ascending: false]]];
-    }
-    if ([[mainDelegate.arrOfResult objectAtIndex:0] isEqualToString:@"Сначала срочные"]){
-        arrForTable = [arrForTable sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending: true]]];
-    }
-    [mainTableView reloadData];*/
+    
+    
+    [mainTableView reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -185,6 +188,22 @@
 -(IBAction)goToFilter:(UIButton *)sender{
     
     mainDelegate.filter = [mainDelegate.lastFilter copy];
+    
+}
+
+-(IBAction)update:(id)sender{
+    
+    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/order/get_all_orders"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+}
+
+-(IBAction)quit:(UIButton *)sender{
+    
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    EnterViewController *enterViewController =  (EnterViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"enterViewController"];
+    [self presentViewController:enterViewController animated:YES completion:nil];
     
 }
 

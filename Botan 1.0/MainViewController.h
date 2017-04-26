@@ -8,13 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "EnterViewController.h"
 
 @interface MainViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, NSCopying>{
     
     AppDelegate *mainDelegate;
     IBOutlet UITableView *mainTableView;
     IBOutlet UIBarButtonItem *barButtonItemLeft;
-    IBOutlet NSMutableArray *arrForTable;
+    
+    NSMutableArray *arrForTable;
+    
+    NSData *jsonData;
     
 
 }
@@ -24,11 +28,6 @@
 @property (nonatomic, strong) IBOutlet UIButton *buttonAddOrder;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *barButtonItemLeft;
 
-
--(IBAction)slideView:(UIBarButtonItem *)sender;
--(IBAction)backToChoose:(UIButton *)sender;
--(IBAction)getOrder:(UIButton *)sender;
--(IBAction)changeCost:(UIButton *)sender;
 
 
 @end

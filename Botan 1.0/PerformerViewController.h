@@ -1,23 +1,26 @@
 //
-//  MessageViewController.h
+//  PerformerViewController.h
 //  Botan 1.0
 //
-//  Created by Сергей Гаврилко on 14.03.17.
+//  Created by Сергей Гаврилко on 09.04.17.
 //  Copyright © 2017 Сергей Гаврилко. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+#import "PerformerCell.h"
+#import "Performer.h"
 #import "AppDelegate.h"
-#import "MessageCell.h"
-#import "Message.h"
-#import "TalkingViewController.h"
 
-@interface MessageViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>{
+@interface PerformerViewController : UIViewController{
     
     AppDelegate *mainDelegate;
-    NSMutableArray *arrForTable;
+    
     IBOutlet UITableView *mainTableView;
+    
+    NSMutableArray *performersArr;
     NSData *jsonData;
+    
+    
 }
 
 @property (nonatomic, strong) IBOutlet UITableView *mainTableView;

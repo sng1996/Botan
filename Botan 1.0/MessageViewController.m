@@ -7,13 +7,13 @@
 //
 
 #import "MessageViewController.h"
-#import "SiteCell.h"
 
 @interface MessageViewController ()
 
 @end
 
 @implementation MessageViewController
+@synthesize mainTableView;
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [arrForTable count];
@@ -35,33 +35,19 @@
     
     NSString *cellIdentifier = @"Cell";
     
-    SiteCell *cell = (SiteCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    MessageCell *cell = (MessageCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if(cell == nil){
-        cell = [[SiteCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[MessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     NSInteger row = indexPath.row;
+
     
-    cell.imageView.frame = CGRectMake(10, 15, 40, 40);
-    cell.subjectLabel.frame = CGRectMake(60, 0, self.view.frame.size.width*0.5f, 20);
-    cell.typeLabel.frame = CGRectMake(60, 20, self.view.frame.size.width*0.5f, 15);
-    //cell.descriptLabel.frame = CGRectMake(60, 35, self.view.frame.size.width*0.5f, 30);
-    //cell.dateLabel.frame = CGRectMake(self.view.frame.size.width*0.5f + 65, 60, self.view.frame.size.width*0.5f - 65, 10);
-    cell.costLabel.frame = CGRectMake(self.view.frame.size.width*0.5f + 65, 35, self.view.frame.size.width*0.5f - 65, 20);
-    
-    cell.typeLabel.textColor = [UIColor blackColor];
-    cell.subjectLabel.textColor = [UIColor blackColor];
-    //cell.dateLabel.textColor = [UIColor blackColor];
-    cell.costLabel.textColor = [UIColor blackColor];
-    //cell.descriptLabel.textColor = [UIColor blackColor];
-    
-    Order *order = [arrForTable objectAtIndex:row];
-    cell.typeLabel.text = [NSString stringWithFormat:@"#%@ #%@", [mainDelegate.types objectAtIndex:order.type], [mainDelegate.types objectAtIndex:order.science]];
-    cell.subjectLabel.text = order.subject;
-    //cell.descriptLabel.text = order.description;
-    //cell.dateLabel.text = order.date;
-    cell.costLabel.text = [NSString stringWithFormat:@"%ld", (long)order.cost];
+    Message *message = [arrForTable objectAtIndex:row];
+    cell.nameLbl.text = message.contact_name;
+    cell.dateLbl.text = message.date;
+    cell.msgLbl.text =  message.message;
     
     
     cell.accessoryType = UITableViewCellStyleDefault;
@@ -76,9 +62,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    /*UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    GetOrderViewController *getOrderViewController =  (GetOrderViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"getOrderViewController"];
-    [self presentViewController:getOrderViewController animated:YES completion:nil];*/
+    NSInteger row = indexPath.row;
+    
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    TalkingViewController *talkingViewController =  (TalkingViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"talkingViewController"];
+    /*talkingViewController.order_id = ((Message *)[arrForTable objectAtIndex:row]).order_id;*/
+    [self.navigationController pushViewController:talkingViewController animated:YES];
     
 }
 
@@ -89,12 +78,66 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.extendedLayoutIncludesOpaqueBars = YES;
+    
+    mainDelegate = (AppDelegate *)[[ UIApplication sharedApplication] delegate];
+    arrForTable = [[NSMutableArray alloc] init];
+    
+    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    
+    /*UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.navigationController.navigationBar.frame.size.height)];
+    [navView setBackgroundColor:[UIColor greenColor]];
+    [self.navigationController.navigationBar addSubview:navView];*/
+    
+    UILabel *navTitle = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, self.view.frame.size.width - 200, self.navigationController.navigationBar.frame.size.height)];
+    navTitle.text = @"Сообщения";
+    navTitle.textColor = [UIColor blackColor];
+    navTitle.textAlignment = NSTextAlignmentCenter;
+    navTitle.tag = 1;
+    [self.navigationController.navigationBar addSubview:navTitle];
+    
+    
+    NSString *url = [NSString stringWithFormat:@"http://127.0.0.1:8080/message/get_contacts/?id=%ld", (long)mainDelegate.currentUser._id];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    jsonData = data;
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSLog(@"%@", error);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    
+    [arrForTable removeAllObjects];
+    NSDictionary *responseDic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+    if ([NSJSONSerialization isValidJSONObject:responseDic])
+    {
+        NSArray *array = [responseDic objectForKey:@"response"];
+        [array enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+            Message *message = [[Message alloc] init];
+            message.order_id = [[obj objectForKey:@"order_id"] integerValue];
+            message.is_my = [[obj objectForKey:@"is_my"] boolValue];
+            message.message = [obj objectForKey:@"message"];
+            message.contact_name = [obj objectForKey:@"name"];
+            message.date = [obj objectForKey:@"date"];
+            [arrForTable addObject:message];
+        }];
+        
+    }
+    [mainTableView reloadData];
+    
+    
 }
 
 @end

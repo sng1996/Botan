@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "TabController.h"
+#import "Order.h"
+#import "JSON/SBJson.h"
+#import "MainViewController.h"
 
-@interface AddOrderViewController : UIViewController <UITextViewDelegate, UIScrollViewDelegate>{
+@interface AddOrderViewController : UIViewController <UITextViewDelegate, UIScrollViewDelegate, UITextFieldDelegate>{
     
     AppDelegate *mainDelegate;
     Order *order;

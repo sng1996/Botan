@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "MainViewController.h"
+#import "JSON/SBJson.h"
 
 @interface EnterViewController : UIViewController{
     
